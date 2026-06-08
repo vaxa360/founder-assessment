@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VAXA Entrepreneurial Potential Assessment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy:    #050e2a;
+      --deep:    #0a1a4a;
+      --royal:   #0d2d8f;
+      --cobalt:  #1a56db;
+      --vivid:   #2b7fff;
+      --sky:     #5aadff;
+      --mist:    #a8d4ff;
+      --frost:   #ddeeff;
+      --white:   #f0f6ff;
+      --text:    #c8dcf5;
+      --subtle:  #6a90b8;
+      --glass:   rgba(26,86,219,0.08);
+      --border:  rgba(90,173,255,0.18);
+      --card-bg: rgba(10,26,74,0.6);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* BACKGROUND MESH */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 10%, rgba(13,45,143,0.55) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(43,127,255,0.25) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(26,86,219,0.15) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* GRID OVERLAY */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(90,173,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(90,173,255,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* HEADER */
+    .header {
+      text-align: center;
+      padding: 72px 0 56px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .vaxa-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(43,127,255,0.12);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 28px;
+    }
+
+    .vaxa-badge span { width: 6px; height: 6px; background: var(--vivid); border-radius: 50%; animation: pulse 2s ease infinite; }
+
+    h1.title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    h1.title em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--sky), var(--vivid));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-sub {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--subtle);
+      max-width: 480px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    .progress-bar-wrap {
+      background: rgba(90,173,255,0.08);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      height: 6px;
+      overflow: hidden;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--royal), var(--vivid), var(--sky));
+      border-radius: 100px;
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-label {
+      font-size: 12px;
+      color: var(--subtle);
+      margin-top: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    /* SECTION HEADERS */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 52px 0 24px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .section-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sky);
+    }
+
+    .section-count {
+      font-size: 12px;
+      color: var(--subtle);
+      margin-top: 2px;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
+    }
+
+    /* QUESTION CARDS */
+    .question-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 14px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.3s ease, transform 0.2s ease;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .question-card:hover { border-color: rgba(90,173,255,0.35); }
+    .question-card.answered { border-color: rgba(43,127,255,0.4); background: rgba(26,86,219,0.12); }
+
+    .question-text {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .q-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--vivid);
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+      opacity: 0.7;
+    }
+
+    .options-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .option-label {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .option-label input[type="radio"] { display: none; }
+
+    .option-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 6px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(90,173,255,0.15);
+      background: rgba(5,14,42,0.4);
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .option-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(90,173,255,0.3);
+      background: transparent;
+      transition: all 0.2s ease;
+    }
+
+    .option-text {
+      font-size: 10px;
+      color: var(--subtle);
+      line-height: 1.3;
+      transition: color 0.2s ease;
+    }
+
+    .option-label input:checked ~ .option-btn {
+      border-color: var(--vivid);
+      background: rgba(43,127,255,0.18);
+    }
+
+    .option-label input:checked ~ .option-btn .option-dot {
+      background: var(--vivid);
+      border-color: var(--vivid);
+      box-shadow: 0 0 10px rgba(43,127,255,0.5);
+    }
+
+    .option-label input:checked ~ .option-btn .option-text { color: var(--sky); }
+
+    .option-label:hover .option-btn {
+      border-color: rgba(90,173,255,0.4);
+      background: rgba(43,127,255,0.1);
+    }
+
+    /* SUBMIT BUTTON */
+    .submit-wrap {
+      text-align: center;
+      margin-top: 52px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .btn-submit {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 48px;
+      background: linear-gradient(135deg, var(--royal), var(--cobalt), var(--vivid));
+      color: var(--white);
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 32px rgba(43,127,255,0.35), 0 0 0 1px rgba(90,173,255,0.2);
+      overflow: hidden;
+    }
+
+    .btn-submit::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--vivid), var(--sky));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(43,127,255,0.5); }
+    .btn-submit:hover::before { opacity: 1; }
+    .btn-submit span { position: relative; z-index: 1; }
+
+    .btn-arrow { position: relative; z-index: 1; font-size: 18px; }
+
+    /* ERROR */
+    .error-msg {
+      display: none;
+      text-align: center;
+      color: #ff7fa8;
+      font-size: 14px;
+      margin-top: 16px;
+      animation: shake 0.4s ease;
+    }
+
+    /* LOADING OVERLAY */
+    #loadingOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5,14,42,0.9);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    #loadingOverlay.active { display: flex; }
+
+    .loader-ring {
+      width: 60px; height: 60px;
+      border: 3px solid rgba(90,173,255,0.2);
+      border-top-color: var(--vivid);
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+
+    .loader-text {
+      font-family: 'Syne', sans-serif;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      color: var(--sky);
+      animation: pulse 1.5s ease infinite;
+    }
+
+    /* RESULTS */
+    #resultSection {
+      display: none;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .result-hero {
+      text-align: center;
+      padding: 64px 32px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      backdrop-filter: blur(16px);
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .result-hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; left: 50%; transform: translateX(-50%);
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(43,127,255,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .result-level-badge {
+      display: inline-block;
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--sky);
+      background: rgba(43,127,255,0.12);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 6px 20px;
+      margin-bottom: 20px;
+    }
+
+    .result-score-ring {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 24px;
+    }
+
+    .result-score-ring svg { transform: rotate(-90deg); }
+
+    .score-num {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .score-num .big { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: var(--white); line-height: 1; }
+    .score-num .small { font-size: 12px; color: var(--subtle); margin-top: 4px; }
+
+    .result-level-name {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+
+    .result-level-name em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--sky), var(--vivid));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .result-summary {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--subtle);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.75;
+    }
+
+    /* RADAR CHART */
+    .radar-wrap {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      backdrop-filter: blur(12px);
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .section-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 24px;
+    }
+
+    /* CATEGORY CARDS */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .cat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.3s, transform 0.2s;
+    }
+
+    .cat-card:hover { border-color: rgba(90,173,255,0.35); transform: translateY(-2px); }
+
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .cat-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      background: rgba(43,127,255,0.12);
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .cat-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .cat-score-text { font-size: 12px; color: var(--subtle); }
+
+    .cat-bar-bg {
+      height: 5px;
+      background: rgba(90,173,255,0.1);
+      border-radius: 100px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .cat-bar-fill {
+      height: 100%;
+      border-radius: 100px;
+      background: linear-gradient(90deg, var(--royal), var(--vivid));
+      transition: width 1s ease;
+      width: 0%;
+    }
+
+    .cat-status {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      padding: 3px 10px;
+      border-radius: 100px;
+      margin-bottom: 12px;
+    }
+
+    .status-excellent { background: rgba(43,127,255,0.18); color: var(--sky); border: 1px solid rgba(43,127,255,0.3); }
+    .status-good { background: rgba(26,86,219,0.18); color: var(--mist); border: 1px solid rgba(26,86,219,0.3); }
+    .status-fair { background: rgba(255,180,50,0.12); color: #ffd080; border: 1px solid rgba(255,180,50,0.25); }
+    .status-poor { background: rgba(255,80,100,0.12); color: #ff9aaa; border: 1px solid rgba(255,80,100,0.2); }
+
+    .cat-analysis { font-size: 13px; color: var(--subtle); line-height: 1.6; }
+
+    /* RECOMMENDATIONS */
+    .reco-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 32px;
+      backdrop-filter: blur(12px);
+      margin-bottom: 16px;
+    }
+
+    .reco-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .reco-items { display: flex; flex-direction: column; gap: 10px; }
+
+    .reco-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    .reco-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--vivid);
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    /* OVERALL RECO */
+    .overall-reco {
+      background: linear-gradient(135deg, rgba(13,45,143,0.5), rgba(26,86,219,0.25));
+      border: 1px solid rgba(43,127,255,0.3);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .overall-reco::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 160px; height: 160px;
+      background: radial-gradient(circle, rgba(43,127,255,0.15) 0%, transparent 70%);
+    }
+
+    .overall-reco-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--sky);
+      margin-bottom: 12px;
+    }
+
+    .overall-reco-text {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.8;
+      position: relative;
+    }
+
+    .retry-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 32px;
+      padding: 14px 32px;
+      background: transparent;
+      color: var(--sky);
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .retry-btn:hover { border-color: var(--vivid); color: var(--white); background: rgba(43,127,255,0.1); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    @keyframes countUp {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .options-row { grid-template-columns: repeat(5, 1fr); gap: 5px; }
+      .option-btn { padding: 8px 3px 10px; }
+      .option-text { font-size: 9px; }
+      .option-dot { width: 16px; height: 16px; }
+      .categories-grid { grid-template-columns: 1fr; }
+      .question-card { padding: 18px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="loadingOverlay">
+  <div class="loader-ring"></div>
+  <div class="loader-text">ANALYZING YOUR PROFILE...</div>
+</div>
+
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div class="header" id="formSection">
+    <div class="vaxa-badge"><span></span> VAXA Mentoring Platform</div>
+    <h1 class="title">Entrepreneurial<br><em>Potential Assessment</em></h1>
+    <p class="header-sub">50 calibrated questions across 5 dimensions. Honest scoring. No fluff in the results.</p>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">0 of 50 answered</div>
+  </div>
+
+  <!-- FORM -->
+  <form id="assessmentForm" onsubmit="return false;">
+
+    <!-- MINDSET -->
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(43,127,255,0.1)">🧠</div>
+      <div>
+        <div class="section-title">Mindset</div>
+        <div class="section-count">Questions 1 – 10</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+
+    <div id="mindset-questions"></div>
+
+    <!-- SKILLS -->
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(26,86,219,0.12)">⚡</div>
+      <div>
+        <div class="section-title">Skills</div>
+        <div class="section-count">Questions 11 – 20</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+
+    <div id="skills-questions"></div>
+
+    <!-- LEADERSHIP -->
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(13,45,143,0.2)">🎯</div>
+      <div>
+        <div class="section-title">Leadership</div>
+        <div class="section-count">Questions 21 – 30</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+
+    <div id="leadership-questions"></div>
+
+    <!-- PERSONALITY -->
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(90,173,255,0.08)">🔮</div>
+      <div>
+        <div class="section-title">Personality</div>
+        <div class="section-count">Questions 31 – 40</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+
+    <div id="personality-questions"></div>
+
+    <!-- STRESS -->
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(168,212,255,0.06)">🛡️</div>
+      <div>
+        <div class="section-title">Stress Management</div>
+        <div class="section-count">Questions 41 – 50</div>
+      </div>
+      <div class="section-line"></div>
+    </div>
+
+    <div id="stress-questions"></div>
+
+    <div class="submit-wrap">
+      <button class="btn-submit" onclick="submitAssessment()">
+        <span>See My Results</span>
+        <span class="btn-arrow">→</span>
+      </button>
+      <div class="error-msg" id="errorMsg">Please answer all 50 questions before submitting.</div>
+    </div>
+
+  </form>
+
+  <!-- RESULTS -->
+  <div id="resultSection">
+
+    <div class="result-hero">
+      <div class="result-level-badge" id="resultBadge">Your Result</div>
+      <div class="result-score-ring">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <circle cx="70" cy="70" r="58" fill="none" stroke="rgba(90,173,255,0.1)" stroke-width="8"/>
+          <circle id="scoreCircle" cx="70" cy="70" r="58" fill="none" stroke="url(#ringGrad)" stroke-width="8" stroke-linecap="round" stroke-dasharray="364" stroke-dashoffset="364"/>
+          <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#0d2d8f"/>
+              <stop offset="100%" stop-color="#5aadff"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="score-num">
+          <div class="big" id="scoreBig">0</div>
+          <div class="small">/ 250</div>
+        </div>
+      </div>
+      <div class="result-level-name" id="resultLevelName">Loading...</div>
+      <p class="result-summary" id="resultSummary"></p>
+    </div>
+
+    <!-- RADAR -->
+    <div class="radar-wrap">
+      <div class="section-label">5-Dimension Snapshot</div>
+      <canvas id="radarChart" width="400" height="320" style="max-width:100%;"></canvas>
+    </div>
+
+    <!-- CATEGORY BREAKDOWN -->
+    <div class="section-label" style="padding:0 4px 16px;">Category Breakdown</div>
+    <div class="categories-grid" id="categoriesGrid"></div>
+
+    <!-- RECOMMENDATIONS -->
+    <div class="section-label" style="padding:16px 4px 16px;">Action Plan</div>
+    <div id="recoCards"></div>
+
+    <!-- OVERALL -->
+    <div class="overall-reco">
+      <div class="overall-reco-label">Overall Verdict</div>
+      <div class="overall-reco-text" id="overallRecoText"></div>
+    </div>
+
+    <div style="text-align:center;">
+      <button class="retry-btn" onclick="resetAssessment()">↺ Retake Assessment</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  const questions = {
+    mindset: [
+      "I believe that failure is an essential part of the learning process.",
+      "I am always looking for new opportunities to grow and improve.",
+      "I am confident in my ability to overcome challenges.",
+      "I am willing to take calculated risks to achieve my goals.",
+      "I am persistent and do not give up easily.",
+      "I am open to feedback and use it to improve myself.",
+      "I believe in my ability to create a successful future.",
+      "I am always curious and eager to learn new things.",
+      "I am comfortable with uncertainty and ambiguity.",
+      "I am proactive and take initiative in most situations."
+    ],
+    skills: [
+      "I have strong problem-solving skills.",
+      "I am skilled at managing my time effectively.",
+      "I am good at identifying market opportunities.",
+      "I am proficient in financial planning and budgeting.",
+      "I have strong communication and negotiation skills.",
+      "I am skilled at building and maintaining professional networks.",
+      "I am adept at using technology to improve efficiency.",
+      "I am capable of creating and executing a business plan.",
+      "I am skilled at analyzing data to make informed decisions.",
+      "I am capable of adapting to new technologies and trends."
+    ],
+    leadership: [
+      "I can inspire and motivate others to achieve common goals.",
+      "I am good at delegating tasks to the right people.",
+      "I am effective at resolving conflicts within a team.",
+      "I am capable of making tough decisions under pressure.",
+      "I am skilled at setting clear goals and expectations for my team.",
+      "I am good at recognizing and nurturing talent in others.",
+      "I am able to lead by example and demonstrate integrity.",
+      "I am comfortable with taking responsibility for team outcomes.",
+      "I am effective at communicating my vision to others.",
+      "I am able to adapt my leadership style to different situations."
+    ],
+    personality: [
+      "I am comfortable working in high-pressure environments.",
+      "I am naturally optimistic and see opportunities in challenges.",
+      "I am empathetic and understand the feelings of others.",
+      "I am confident in expressing my ideas and opinions.",
+      "I am adaptable and can adjust to new situations quickly.",
+      "I am self-motivated and do not need constant supervision.",
+      "I am patient and can handle delays or setbacks without frustration.",
+      "I am detail-oriented and pay attention to small but important aspects.",
+      "I am comfortable with public speaking and presenting ideas.",
+      "I am resilient and can bounce back quickly from failures."
+    ],
+    stress: [
+      "I can manage stress effectively without letting it affect my work.",
+      "I practice relaxation techniques to reduce stress.",
+      "I maintain a healthy work-life balance.",
+      "I am able to stay calm and focused during crises.",
+      "I prioritize tasks effectively to avoid feeling overwhelmed.",
+      "I seek support from others when I feel stressed.",
+      "I take regular breaks to recharge and avoid burnout.",
+      "I am able to identify the sources of my stress and address them effectively.",
+      "I maintain a positive attitude even in stressful situations.",
+      "I am able to set boundaries to protect my mental well-being."
+    ]
+  };
+
+  const optionLabels = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
+
+  let qIndex = 0;
+
+  function buildQuestions() {
+    const sections = ['mindset','skills','leadership','personality','stress'];
+    sections.forEach((sec, sIdx) => {
+      const container = document.getElementById(`${sec}-questions`);
+      questions[sec].forEach((q, i) => {
+        const num = sIdx * 10 + i + 1;
+        const card = document.createElement('div');
+        card.className = 'question-card';
+        card.id = `card-q${num}`;
+        card.style.animationDelay = `${(i % 10) * 0.05}s`;
+
+        card.innerHTML = `
+          <div class="q-number">Q${num.toString().padStart(2,'0')}</div>
+          <div class="question-text">${q}</div>
+          <div class="options-row">
+            ${optionLabels.map((lbl, v) => `
+              <label class="option-label">
+                <input type="radio" name="q${num}" value="${v+1}" onchange="onAnswer(${num})">
+                <div class="option-btn">
+                  <div class="option-dot"></div>
+                  <div class="option-text">${lbl}</div>
+                </div>
+              </label>
+            `).join('')}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    });
+  }
+
+  function onAnswer(qNum) {
+    const card = document.getElementById(`card-q${qNum}`);
+    if (card) card.classList.add('answered');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    let answered = 0;
+    for (let i = 1; i <= 50; i++) {
+      if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+    }
+    const pct = (answered / 50) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = `${answered} of 50 answered`;
+  }
+
+  function submitAssessment() {
+    // Validate all answered
+    for (let i = 1; i <= 50; i++) {
+      if (!document.querySelector(`input[name="q${i}"]:checked`)) {
+        document.getElementById('errorMsg').style.display = 'block';
+        document.getElementById(`card-q${i}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+    }
+    document.getElementById('errorMsg').style.display = 'none';
+    document.getElementById('loadingOverlay').classList.add('active');
+
+    // Compute scores
+    const cats = { Mindset: 0, Skills: 0, Leadership: 0, Personality: 0, StressManagement: 0 };
+    for (let i = 1; i <= 50; i++) {
+      const v = parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);
+      if (i <= 10) cats.Mindset += v;
+      else if (i <= 20) cats.Skills += v;
+      else if (i <= 30) cats.Leadership += v;
+      else if (i <= 40) cats.Personality += v;
+      else cats.StressManagement += v;
+    }
+    const total = Object.values(cats).reduce((a,b) => a+b, 0);
+    const avgs = {};
+    Object.keys(cats).forEach(k => avgs[k] = cats[k] / 10);
+
+    setTimeout(() => {
+      document.getElementById('loadingOverlay').classList.remove('active');
+      showResults(cats, avgs, total);
+    }, 1800);
+  }
+
+  function showResults(cats, avgs, total) {
+    document.getElementById('formSection').style.display = 'none';
+    document.getElementById('assessmentForm').style.display = 'none';
+    document.getElementById('resultSection').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Overall level
+    let level, levelColor;
+    if (total >= 200) { level = "Excellent Potential"; levelColor = "#5aadff"; }
+    else if (total >= 150) { level = "Good Potential"; levelColor = "#a8d4ff"; }
+    else if (total >= 100) { level = "Moderate Potential"; levelColor = "#ffd080"; }
+    else { level = "Needs Development"; levelColor = "#ff9aaa"; }
+
+    document.getElementById('resultBadge').textContent = `Score: ${total} / 250`;
+    document.getElementById('resultLevelName').innerHTML = level.replace(' ', ' <em>') + '</em>';
+
+    const summaryMap = {
+      "Excellent Potential": "You consistently demonstrate the traits of a high-agency operator. Your baseline is strong — now it's about execution, not preparation.",
+      "Good Potential": "Solid foundation across most dimensions. A few specific gaps are holding you back from your ceiling. Those gaps are fixable.",
+      "Moderate Potential": "You have real strengths, but the weak dimensions will create friction at every growth stage. Targeted intervention is non-negotiable.",
+      "Needs Development": "The self-awareness to take this assessment is itself a signal. The gap between where you are and where you need to be is wide — but it's a skills gap, not a fixed one."
+    };
+    document.getElementById('resultSummary').textContent = summaryMap[level];
+
+    // Animate score ring
+    const pct = total / 250;
+    const circumference = 364;
+    const offset = circumference * (1 - pct);
+    setTimeout(() => {
+      document.getElementById('scoreCircle').style.strokeDashoffset = offset;
+      document.getElementById('scoreCircle').style.transition = 'stroke-dashoffset 1.2s ease';
+    }, 200);
+
+    // Count up
+    let current = 0;
+    const interval = setInterval(() => {
+      current += Math.ceil(total / 40);
+      if (current >= total) { current = total; clearInterval(interval); }
+      document.getElementById('scoreBig').textContent = current;
+    }, 30);
+
+    // Draw radar
+    setTimeout(() => drawRadar(avgs), 400);
+
+    // Category cards
+    const catMeta = {
+      Mindset: { icon: '🧠', label: 'Mindset' },
+      Skills: { icon: '⚡', label: 'Skills' },
+      Leadership: { icon: '🎯', label: 'Leadership' },
+      Personality: { icon: '🔮', label: 'Personality' },
+      StressManagement: { icon: '🛡️', label: 'Stress Mgmt' }
+    };
+
+    const grid = document.getElementById('categoriesGrid');
+    grid.innerHTML = '';
+    Object.keys(avgs).forEach(k => {
+      const avg = avgs[k];
+      const pct = (avg / 5) * 100;
+      let statusClass, statusLabel, analysisText;
+
+      if (avg >= 4) { statusClass = 'status-excellent'; statusLabel = 'Excellent'; }
+      else if (avg >= 3) { statusClass = 'status-good'; statusLabel = 'Good'; }
+      else if (avg >= 2) { statusClass = 'status-fair'; statusLabel = 'Needs Work'; }
+      else { statusClass = 'status-poor'; statusLabel = 'Critical Gap'; }
+
+      analysisText = getCatAnalysis(k, avg);
+
+      const card = document.createElement('div');
+      card.className = 'cat-card';
+      card.innerHTML = `
+        <div class="cat-header">
+          <div class="cat-icon">${catMeta[k].icon}</div>
+          <div>
+            <div class="cat-name">${catMeta[k].label}</div>
+            <div class="cat-score-text">${avg.toFixed(1)} / 5.0 avg</div>
+          </div>
+        </div>
+        <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:0%" data-pct="${pct}"></div></div>
+        <span class="cat-status ${statusClass}">${statusLabel}</span>
+        <div class="cat-analysis">${analysisText}</div>
+      `;
+      grid.appendChild(card);
+    });
+
+    // Animate bars
+    setTimeout(() => {
+      document.querySelectorAll('.cat-bar-fill').forEach(el => {
+        el.style.width = el.dataset.pct + '%';
+        el.style.transition = 'width 1s ease';
+      });
+    }, 300);
+
+    // Reco cards
+    buildRecos(avgs);
+
+    // Overall reco
+    document.getElementById('overallRecoText').textContent = getOverallReco(level);
+  }
+
+  function drawRadar(avgs) {
+    const canvas = document.getElementById('radarChart');
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    const cx = W / 2, cy = H / 2;
+    const R = Math.min(W, H) * 0.36;
+    const labels = ['Mindset', 'Skills', 'Leadership', 'Personality', 'Stress\nMgmt'];
+    const keys = ['Mindset','Skills','Leadership','Personality','StressManagement'];
+    const n = 5;
+    const step = (Math.PI * 2) / n;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Grid circles
+    for (let lvl = 1; lvl <= 5; lvl++) {
+      ctx.beginPath();
+      for (let i = 0; i < n; i++) {
+        const angle = -Math.PI/2 + i * step;
+        const r = (R * lvl) / 5;
+        const x = cx + r * Math.cos(angle);
+        const y = cy + r * Math.sin(angle);
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.strokeStyle = 'rgba(90,173,255,0.12)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // Spokes
+    for (let i = 0; i < n; i++) {
+      const angle = -Math.PI/2 + i * step;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + R * Math.cos(angle), cy + R * Math.sin(angle));
+      ctx.strokeStyle = 'rgba(90,173,255,0.12)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // Data polygon
+    ctx.beginPath();
+    keys.forEach((k, i) => {
+      const val = avgs[k] / 5;
+      const angle = -Math.PI/2 + i * step;
+      const x = cx + R * val * Math.cos(angle);
+      const y = cy + R * val * Math.sin(angle);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    });
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(43,127,255,0.2)';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(90,173,255,0.8)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Data points
+    keys.forEach((k, i) => {
+      const val = avgs[k] / 5;
+      const angle = -Math.PI/2 + i * step;
+      const x = cx + R * val * Math.cos(angle);
+      const y = cy + R * val * Math.sin(angle);
+      ctx.beginPath();
+      ctx.arc(x, y, 5, 0, Math.PI * 2);
+      ctx.fillStyle = '#2b7fff';
+      ctx.fill();
+      ctx.strokeStyle = '#5aadff';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    });
+
+    // Labels
+    ctx.fillStyle = '#6a90b8';
+    ctx.font = '12px DM Sans, sans-serif';
+    ctx.textAlign = 'center';
+    labels.forEach((lbl, i) => {
+      const angle = -Math.PI/2 + i * step;
+      const labelR = R + 26;
+      const x = cx + labelR * Math.cos(angle);
+      const y = cy + labelR * Math.sin(angle);
+      const lines = lbl.split('\n');
+      lines.forEach((line, li) => {
+        ctx.fillText(line, x, y + li * 14);
+      });
+    });
+  }
+
+  function getCatAnalysis(cat, avg) {
+    const analyses = {
+      Mindset: {
+        4: "Your mindset is a competitive asset. You operate from a growth frame, embrace risk, and don't fold under uncertainty. This is your foundation.",
+        3: "Your mindset is functional but conditional. You default to growth thinking when conditions are favorable, not when the pressure is on. That's exactly when it matters.",
+        2: "Fixed mindset patterns are leaking into your decision-making. You're likely avoiding the very situations that would accelerate your growth the fastest.",
+        1: "Your current mindset is a direct ceiling on your potential. No strategy, skill, or funding will fix a mindset that defaults to self-protection over learning."
+      },
+      Skills: {
+        4: "Operationally capable across the board. You can plan, execute, and adapt. The question is whether you're applying these skills to the right problems.",
+        3: "Functional skill set with clear blind spots. A founder at this level tends to underperform on financial literacy or data-driven decisions — fix those first.",
+        2: "Significant skill gaps that will become acute as complexity grows. You can't delegate your way out of skills you don't have. You need to close these systematically.",
+        1: "Core execution skills are underdeveloped. Before building a startup, build yourself. This level of skill gap produces avoidable operational failure."
+      },
+      Leadership: {
+        4: "You can recruit, align, and retain people. This is rare and it compounds — good leaders attract better people, which creates better outcomes.",
+        3: "Solid on vision communication and goal-setting. Weak on conflict resolution and talent development. Teams built around leaders at this level often plateau.",
+        2: "Leadership gaps at this level create a single point of failure. You're the bottleneck. Teams will underperform because you can't multiply your effort through others.",
+        1: "Leadership is not natural yet. This is learnable, but it takes intentional work. Solopreneurship may be a better path until this dimension is stronger."
+      },
+      Personality: {
+        4: "High-pressure comfort, strong self-direction, resilience after failure. These traits separate founders who survive the hard years from those who don't.",
+        3: "Strong in some traits, inconsistent in others. Watch for over-reliance on optimism without the execution discipline to match it.",
+        2: "Personality traits at this range will create friction with co-founders, investors, and teams. This is not about character — it's about specific, trainable behaviors.",
+        1: "The entrepreneurial journey will consistently surface the gaps here. This requires honest self-work, not just skill training."
+      },
+      StressManagement: {
+        4: "You operate well under pressure without burning out. This is underrated — most founders destroy their effectiveness within 18 months of launch due to stress mismanagement.",
+        3: "Adequate coping mechanisms but inconsistent application. You manage stress reactively instead of proactively. That will catch up with you at scale.",
+        2: "Your current stress management strategy is not sustainable at the intensity of early-stage building. Burnout is a predictable outcome, not a risk to hedge.",
+        1: "You are operating above your current stress tolerance. Without immediate changes, your performance and judgment will deteriorate under pressure."
+      }
+    };
+    const tier = avg >= 4 ? 4 : avg >= 3 ? 3 : avg >= 2 ? 2 : 1;
+    return analyses[cat][tier];
+  }
+
+  function buildRecos(avgs) {
+    const container = document.getElementById('recoCards');
+    container.innerHTML = '';
+
+    const recos = {
+      Mindset: {
+        icon: '🧠',
+        4: ["Continue exposing yourself to anti-consensus thinking — read contrarian frameworks, not just confirmation.", "Document your failures systematically. Turn every setback into an explicit lesson with a timestamped note.", "Find one person smarter than you in a domain you're weak in, and build a relationship."],
+        3: ["Start a daily reflection practice specifically focused on where you defaulted to a fixed mindset today.", "Deliberately seek situations where you are the least experienced person in the room.", "Study failure post-mortems of companies you admire. Normalize failure as data."],
+        2: ["Identify the three most common stories you tell yourself when you fail. Write them down. Challenge each one.", "Commit to one uncomfortable new skill for 30 days — not useful skills, uncomfortable ones.", "Read Carol Dweck's Mindset. Not as inspiration. As a diagnostic tool."],
+        1: ["Stop launching anything new until you do a serious mindset audit with a coach or mentor.", "The root issue is likely fear-based, not skill-based. Address it at that level.", "Journaling, therapy, or structured self-inquiry are not soft options here — they're prerequisites."]
+      },
+      Skills: {
+        icon: '⚡',
+        4: ["Stay sharp on financial modeling — even if you have a CFO, understand the numbers at the unit economics level.", "Build a second-order skill: teach what you know. It accelerates your own mastery.", "Audit your skill stack against where the industry is heading, not where it is now."],
+        3: ["Identify your single highest-leverage skill gap. Spend 90 days closing it with structured learning.", "Get basic financial modeling fluency if you don't have it. Founders who can't read a P&L are flying blind.", "Join one industry community where skill exchange happens informally."],
+        2: ["You need a learning system, not just good intentions. Block time weekly for structured skill development.", "Start with communication and negotiation — they unlock the value of every other skill you have.", "Find a skills mentor, not a motivation mentor. Someone who will teach you specifics."],
+        1: ["Take a structured business fundamentals course. Not YouTube content — something with accountability.", "Build one foundational skill completely before moving to the next. Breadth at this stage is a trap.", "Seek apprenticeship or a co-founder who compensates for your skill gaps."]
+      },
+      Leadership: {
+        icon: '🎯',
+        4: ["Challenge yourself with a stretch team situation: lead people significantly more experienced than you.", "Develop your second-in-command deliberately. Your leadership ceiling is your team's ceiling.", "Study how great leaders have failed. Most leadership books teach the upside. Learn the failure modes."],
+        3: ["Practice structured feedback delivery. Most 'good' leaders are actually conflict-avoidant.", "Delegate one important task completely this week — including the decision-making authority.", "Learn to read team energy. The best leaders detect disengagement before it becomes turnover."],
+        2: ["Focus exclusively on communication clarity. Vague direction is the #1 leadership failure at this level.", "Seek one formal leadership training program — not a webinar, a real cohort.", "Build the habit of asking for feedback from your team. You can't improve what you don't measure."],
+        1: ["Do not hire until you can lead one person effectively. Hiring before leadership readiness multiplies problems.", "Study leadership case studies from founders who failed specifically because of team dynamics.", "Consider finding a co-founder whose primary strength is exactly this dimension."]
+      },
+      Personality: {
+        icon: '🔮',
+        4: ["Use your pressure tolerance strategically — create environments that are intense enough to sharpen you.", "Your biggest risk is complacency. Continuously raise your own bar.", "Develop emotional intelligence to complement your resilience. High performers who lack EQ hit a ceiling in partnerships and leadership."],
+        3: ["Examine where your adaptability breaks down — specific types of change or specific people? That's where to focus.", "Develop a pre-mortem habit: before every major decision, spend 10 minutes imagining it fails and why.", "Your public speaking and idea-expression likely needs more deliberate practice than you're giving it."],
+        2: ["High-pressure environments will expose you. You need controlled exposure to pressure, not avoidance.", "Resilience is trainable through deliberate hardship. Physical challenges are a legitimate proxy.", "Work on your emotional regulation — not suppression. You need to process, not override."],
+        1: ["These traits are not fixed. But they require genuine work, not motivational reading.", "Build one keystone habit that forces self-directedness — a project where no one is checking on you.", "Therapy or structured coaching is not weakness here. It's the most direct path to change."]
+      },
+      StressManagement: {
+        icon: '🛡️',
+        4: ["Your stress management is strong, but test it at a higher intensity than you're currently operating.", "Build systems, not just habits. Document your recovery protocols so they persist under pressure.", "Help someone else with theirs. Teaching your framework will refine it."],
+        3: ["Your system is reactive. Build a weekly check-in ritual to assess your stress load before it accumulates.", "Identify the physical early warning signs when your stress is rising. Act on the signal, not the overflow.", "Your work-life balance may be functional during normal periods but breaks down under crunch. Stress-test it now."],
+        2: ["Your current approach is not sustainable beyond 12 months of intense work. This is an operational risk, not a wellness preference.", "Commit to at least one non-negotiable recovery activity. Daily walks, workout, or equivalent. Not optional.", "Talk to founders who burned out. Take the data seriously."],
+        1: ["This is urgent. Operating at this stress tolerance level will compromise your judgment, your relationships, and your health.", "Seek professional support — a therapist, coach, or doctor. Not a productivity app.", "Simplify your workload radically before adding anything new."]
+      }
+    };
+
+    Object.keys(avgs).forEach(k => {
+      const avg = avgs[k];
+      const tier = avg >= 4 ? 4 : avg >= 3 ? 3 : avg >= 2 ? 2 : 1;
+      const meta = recos[k];
+      const catLabel = k === 'StressManagement' ? 'Stress Management' : k;
+
+      const card = document.createElement('div');
+      card.className = 'reco-card';
+      card.innerHTML = `
+        <div class="reco-title">${meta.icon} ${catLabel} — Action Items</div>
+        <div class="reco-items">
+          ${meta[tier].map(item => `
+            <div class="reco-item">
+              <div class="reco-dot"></div>
+              <div>${item}</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function getOverallReco(level) {
+    const map = {
+      "Excellent Potential": "You have built a strong entrepreneurial profile across all five dimensions. The risk at this level is not capability — it's direction. Founders with your profile often stall not because they can't execute, but because they pick the wrong problem to execute on. Get obsessive about market validation before you fall in love with your solution. Your next constraint is context, not character.",
+      "Good Potential": "Your profile shows a capable founder who has not yet stress-tested their skills in the right environment. The good news: your gaps are specific and closable. Focus on the two or three categories that scored below 3.5 and treat them as a 90-day development sprint. Mentorship is the highest-leverage investment you can make right now. You are closer than you think.",
+      "Moderate Potential": "Honest assessment: you have a real foundation but significant work ahead. The founders who succeed from this profile are not the ones who stay inspired — they are the ones who build ruthlessly against their weak areas. Pick the worst-scoring dimension, and make it your singular focus for the next 90 days. Then come back and retake this. Do not launch a business until at least three of five dimensions are above 3.0.",
+      "Needs Development": "This score is not a verdict on your potential — it is a baseline. Every successful founder was a poor founder at the beginning. The difference is honest self-knowledge and disciplined iteration. You now have the map. Start with mindset and stress management — these are the prerequisites for every other dimension. Find a mentor, find a program, find accountability. The gap is wide but it is a gap of work, not of worth."
+    };
+    return map[level];
+  }
+
+  function resetAssessment() {
+    document.getElementById('resultSection').style.display = 'none';
+    document.getElementById('formSection').style.display = 'block';
+    document.getElementById('assessmentForm').style.display = 'block';
+    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    document.querySelectorAll('.question-card').forEach(c => c.classList.remove('answered'));
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  buildQuestions();
+</script>
+</body>
+</html>
