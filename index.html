@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VAXA Entrepreneurial Potential Assessment</title>
+  <title>VAXA EPA v2 — Entrepreneurial Potential Assessment</title>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -18,15 +18,11 @@
       --white:   #f0f6ff;
       --text:    #c8dcf5;
       --subtle:  #6a90b8;
-      --glass:   rgba(26,86,219,0.08);
       --border:  rgba(90,173,255,0.18);
       --card-bg: rgba(10,26,74,0.6);
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
-
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--navy);
@@ -34,646 +30,199 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-
-    /* BACKGROUND MESH */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background:
         radial-gradient(ellipse 80% 60% at 10% 10%, rgba(13,45,143,0.55) 0%, transparent 60%),
         radial-gradient(ellipse 60% 50% at 90% 80%, rgba(43,127,255,0.25) 0%, transparent 55%),
         radial-gradient(ellipse 40% 40% at 50% 50%, rgba(26,86,219,0.15) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
-
-    /* GRID OVERLAY */
     body::after {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background-image:
         linear-gradient(rgba(90,173,255,0.04) 1px, transparent 1px),
         linear-gradient(90deg, rgba(90,173,255,0.04) 1px, transparent 1px);
       background-size: 48px 48px;
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
-
-    .wrapper {
-      position: relative;
-      z-index: 1;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 0 24px 80px;
-    }
+    .wrapper { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
 
     /* HEADER */
-    .header {
-      text-align: center;
-      padding: 72px 0 56px;
-      animation: fadeUp 0.8s ease both;
-    }
-
+    .header { text-align: center; padding: 72px 0 48px; animation: fadeUp 0.8s ease both; }
     .vaxa-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(43,127,255,0.12);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 6px 18px;
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--sky);
-      margin-bottom: 28px;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(43,127,255,0.12); border: 1px solid var(--border);
+      border-radius: 100px; padding: 6px 18px; font-size: 12px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky); margin-bottom: 28px;
     }
-
     .vaxa-badge span { width: 6px; height: 6px; background: var(--vivid); border-radius: 50%; animation: pulse 2s ease infinite; }
+    h1.title { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.1; color: var(--white); letter-spacing: -0.02em; margin-bottom: 16px; }
+    h1.title em { font-style: normal; background: linear-gradient(135deg, var(--sky), var(--vivid)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .header-sub { font-size: 16px; font-weight: 300; color: var(--subtle); max-width: 500px; margin: 0 auto 40px; line-height: 1.7; }
+    .version-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--vivid); background: rgba(43,127,255,0.1); border: 1px solid rgba(43,127,255,0.25); border-radius: 6px; padding: 3px 10px; margin-bottom: 16px; }
+    .progress-bar-wrap { background: rgba(90,173,255,0.08); border: 1px solid var(--border); border-radius: 100px; height: 6px; overflow: hidden; max-width: 400px; margin: 0 auto; }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--royal), var(--vivid), var(--sky)); border-radius: 100px; width: 0%; transition: width 0.5s ease; }
+    .progress-label { font-size: 12px; color: var(--subtle); margin-top: 10px; letter-spacing: 0.04em; }
 
-    h1.title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 800;
-      line-height: 1.1;
-      color: var(--white);
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
+    /* ONBOARDING */
+    #onboardingSection { animation: fadeUp 0.7s ease both; }
+    .onboarding-card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px;
+      padding: 40px 36px; backdrop-filter: blur(12px); margin-bottom: 20px;
     }
-
-    h1.title em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--sky), var(--vivid));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .onboarding-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--white); margin-bottom: 8px; }
+    .onboarding-sub { font-size: 14px; color: var(--subtle); line-height: 1.7; margin-bottom: 32px; }
+    .onboarding-field { margin-bottom: 28px; }
+    .field-label { font-family: 'Syne', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky); margin-bottom: 14px; display: block; }
+    .chip-group { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chip-label { cursor: pointer; }
+    .chip-label input[type="radio"] { display: none; }
+    .chip-btn {
+      display: inline-block; padding: 10px 20px; border-radius: 100px;
+      border: 1px solid var(--border); background: rgba(5,14,42,0.5);
+      font-size: 13px; color: var(--subtle); transition: all 0.2s ease;
+      font-family: 'DM Sans', sans-serif;
     }
-
-    .header-sub {
-      font-size: 16px;
-      font-weight: 300;
-      color: var(--subtle);
-      max-width: 480px;
-      margin: 0 auto 40px;
-      line-height: 1.7;
+    .chip-label input:checked ~ .chip-btn { border-color: var(--vivid); background: rgba(43,127,255,0.18); color: var(--white); box-shadow: 0 0 12px rgba(43,127,255,0.2); }
+    .chip-label:hover .chip-btn { border-color: rgba(90,173,255,0.4); color: var(--text); }
+    .btn-start {
+      display: inline-flex; align-items: center; gap: 12px; padding: 18px 48px;
+      background: linear-gradient(135deg, var(--royal), var(--cobalt), var(--vivid));
+      color: var(--white); font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+      letter-spacing: 0.06em; border: none; border-radius: 100px; cursor: pointer;
+      transition: all 0.3s ease; box-shadow: 0 8px 32px rgba(43,127,255,0.35), 0 0 0 1px rgba(90,173,255,0.2);
+      margin-top: 8px;
     }
-
-    .progress-bar-wrap {
-      background: rgba(90,173,255,0.08);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      height: 6px;
-      overflow: hidden;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--royal), var(--vivid), var(--sky));
-      border-radius: 100px;
-      width: 0%;
-      transition: width 0.5s ease;
-    }
-
-    .progress-label {
-      font-size: 12px;
-      color: var(--subtle);
-      margin-top: 10px;
-      letter-spacing: 0.04em;
-    }
+    .btn-start:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(43,127,255,0.5); }
+    .onboard-error { display: none; color: #ff9aaa; font-size: 13px; margin-top: 12px; }
 
     /* SECTION HEADERS */
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin: 52px 0 24px;
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .section-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-      border: 1px solid var(--border);
-    }
-
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--sky);
-    }
-
-    .section-count {
-      font-size: 12px;
-      color: var(--subtle);
-      margin-top: 2px;
-    }
-
-    .section-line {
-      flex: 1;
-      height: 1px;
-      background: linear-gradient(90deg, var(--border), transparent);
-    }
+    .section-header { display: flex; align-items: center; gap: 16px; margin: 52px 0 24px; animation: fadeUp 0.6s ease both; }
+    .section-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; border: 1px solid var(--border); }
+    .section-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky); }
+    .section-count { font-size: 12px; color: var(--subtle); margin-top: 2px; }
+    .section-line { flex: 1; height: 1px; background: linear-gradient(90deg, var(--border), transparent); }
 
     /* QUESTION CARDS */
     .question-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px 28px;
-      margin-bottom: 14px;
-      backdrop-filter: blur(12px);
-      transition: border-color 0.3s ease, transform 0.2s ease;
-      animation: fadeUp 0.5s ease both;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
+      padding: 24px 28px; margin-bottom: 14px; backdrop-filter: blur(12px);
+      transition: border-color 0.3s ease; animation: fadeUp 0.5s ease both;
     }
-
     .question-card:hover { border-color: rgba(90,173,255,0.35); }
     .question-card.answered { border-color: rgba(43,127,255,0.4); background: rgba(26,86,219,0.12); }
-
-    .question-text {
-      font-size: 15px;
-      font-weight: 400;
-      color: var(--white);
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .q-number {
-      font-family: 'Syne', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--vivid);
-      letter-spacing: 0.1em;
-      margin-bottom: 8px;
-      opacity: 0.7;
-    }
-
-    .options-row {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-    }
-
-    .option-label {
-      position: relative;
-      cursor: pointer;
-    }
-
+    .question-text { font-size: 15px; font-weight: 400; color: var(--white); line-height: 1.6; margin-bottom: 20px; }
+    .q-number { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; color: var(--vivid); letter-spacing: 0.1em; margin-bottom: 8px; opacity: 0.7; }
+    .options-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .option-label { position: relative; cursor: pointer; }
     .option-label input[type="radio"] { display: none; }
-
-    .option-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 6px 12px;
-      border-radius: 10px;
-      border: 1px solid rgba(90,173,255,0.15);
-      background: rgba(5,14,42,0.4);
-      transition: all 0.2s ease;
-      text-align: center;
-    }
-
-    .option-dot {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: 2px solid rgba(90,173,255,0.3);
-      background: transparent;
-      transition: all 0.2s ease;
-    }
-
-    .option-text {
-      font-size: 10px;
-      color: var(--subtle);
-      line-height: 1.3;
-      transition: color 0.2s ease;
-    }
-
-    .option-label input:checked ~ .option-btn {
-      border-color: var(--vivid);
-      background: rgba(43,127,255,0.18);
-    }
-
-    .option-label input:checked ~ .option-btn .option-dot {
-      background: var(--vivid);
-      border-color: var(--vivid);
-      box-shadow: 0 0 10px rgba(43,127,255,0.5);
-    }
-
+    .option-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 10px 6px 12px; border-radius: 10px; border: 1px solid rgba(90,173,255,0.15); background: rgba(5,14,42,0.4); transition: all 0.2s ease; text-align: center; }
+    .option-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid rgba(90,173,255,0.3); background: transparent; transition: all 0.2s ease; }
+    .option-text { font-size: 10px; color: var(--subtle); line-height: 1.3; transition: color 0.2s ease; }
+    .option-label input:checked ~ .option-btn { border-color: var(--vivid); background: rgba(43,127,255,0.18); }
+    .option-label input:checked ~ .option-btn .option-dot { background: var(--vivid); border-color: var(--vivid); box-shadow: 0 0 10px rgba(43,127,255,0.5); }
     .option-label input:checked ~ .option-btn .option-text { color: var(--sky); }
+    .option-label:hover .option-btn { border-color: rgba(90,173,255,0.4); background: rgba(43,127,255,0.1); }
 
-    .option-label:hover .option-btn {
-      border-color: rgba(90,173,255,0.4);
-      background: rgba(43,127,255,0.1);
-    }
-
-    /* SUBMIT BUTTON */
-    .submit-wrap {
-      text-align: center;
-      margin-top: 52px;
-      animation: fadeUp 0.6s ease both;
-    }
-
+    /* SUBMIT */
+    .submit-wrap { text-align: center; margin-top: 52px; animation: fadeUp 0.6s ease both; }
     .btn-submit {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 18px 48px;
-      background: linear-gradient(135deg, var(--royal), var(--cobalt), var(--vivid));
-      color: var(--white);
-      font-family: 'Syne', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      border: none;
-      border-radius: 100px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 32px rgba(43,127,255,0.35), 0 0 0 1px rgba(90,173,255,0.2);
-      overflow: hidden;
+      position: relative; display: inline-flex; align-items: center; gap: 12px;
+      padding: 18px 48px; background: linear-gradient(135deg, var(--royal), var(--cobalt), var(--vivid));
+      color: var(--white); font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+      letter-spacing: 0.06em; border: none; border-radius: 100px; cursor: pointer;
+      transition: all 0.3s ease; box-shadow: 0 8px 32px rgba(43,127,255,0.35), 0 0 0 1px rgba(90,173,255,0.2); overflow: hidden;
     }
-
-    .btn-submit::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--vivid), var(--sky));
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
+    .btn-submit::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--vivid), var(--sky)); opacity: 0; transition: opacity 0.3s ease; }
     .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(43,127,255,0.5); }
     .btn-submit:hover::before { opacity: 1; }
-    .btn-submit span { position: relative; z-index: 1; }
+    .btn-submit span, .btn-submit .btn-arrow { position: relative; z-index: 1; }
+    .btn-arrow { font-size: 18px; }
+    .error-msg { display: none; text-align: center; color: #ff7fa8; font-size: 14px; margin-top: 16px; animation: shake 0.4s ease; }
 
-    .btn-arrow { position: relative; z-index: 1; font-size: 18px; }
-
-    /* ERROR */
-    .error-msg {
-      display: none;
-      text-align: center;
-      color: #ff7fa8;
-      font-size: 14px;
-      margin-top: 16px;
-      animation: shake 0.4s ease;
-    }
-
-    /* LOADING OVERLAY */
-    #loadingOverlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(5,14,42,0.9);
-      backdrop-filter: blur(8px);
-      z-index: 100;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-    }
-
+    /* LOADING */
+    #loadingOverlay { display: none; position: fixed; inset: 0; background: rgba(5,14,42,0.92); backdrop-filter: blur(8px); z-index: 100; flex-direction: column; align-items: center; justify-content: center; gap: 24px; }
     #loadingOverlay.active { display: flex; }
-
-    .loader-ring {
-      width: 60px; height: 60px;
-      border: 3px solid rgba(90,173,255,0.2);
-      border-top-color: var(--vivid);
-      border-radius: 50%;
-      animation: spin 0.9s linear infinite;
-    }
-
-    .loader-text {
-      font-family: 'Syne', sans-serif;
-      font-size: 14px;
-      letter-spacing: 0.1em;
-      color: var(--sky);
-      animation: pulse 1.5s ease infinite;
-    }
+    .loader-ring { width: 60px; height: 60px; border: 3px solid rgba(90,173,255,0.2); border-top-color: var(--vivid); border-radius: 50%; animation: spin 0.9s linear infinite; }
+    .loader-text { font-family: 'Syne', sans-serif; font-size: 14px; letter-spacing: 0.1em; color: var(--sky); animation: pulse 1.5s ease infinite; }
+    .loader-sub { font-size: 12px; color: var(--subtle); letter-spacing: 0.06em; }
 
     /* RESULTS */
-    #resultSection {
-      display: none;
-      animation: fadeUp 0.8s ease both;
-    }
-
+    #resultSection { display: none; animation: fadeUp 0.8s ease both; }
     .result-hero {
-      text-align: center;
-      padding: 64px 32px;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      backdrop-filter: blur(16px);
-      margin-bottom: 32px;
-      position: relative;
-      overflow: hidden;
+      text-align: center; padding: 64px 32px;
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px;
+      backdrop-filter: blur(16px); margin-bottom: 32px; position: relative; overflow: hidden;
     }
-
-    .result-hero::before {
-      content: '';
-      position: absolute;
-      top: -60px; left: 50%; transform: translateX(-50%);
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(43,127,255,0.15) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .result-level-badge {
-      display: inline-block;
-      font-family: 'Syne', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--sky);
-      background: rgba(43,127,255,0.12);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 6px 20px;
-      margin-bottom: 20px;
-    }
-
-    .result-score-ring {
-      position: relative;
-      width: 140px;
-      height: 140px;
-      margin: 0 auto 24px;
-    }
-
+    .result-hero::before { content: ''; position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(43,127,255,0.15) 0%, transparent 70%); pointer-events: none; }
+    .result-level-badge { display: inline-block; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky); background: rgba(43,127,255,0.12); border: 1px solid var(--border); border-radius: 100px; padding: 6px 20px; margin-bottom: 20px; }
+    .result-score-ring { position: relative; width: 140px; height: 140px; margin: 0 auto 24px; }
     .result-score-ring svg { transform: rotate(-90deg); }
+    .score-num { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .score-num .big { font-family: 'Syne', sans-serif; font-size: 34px; font-weight: 800; color: var(--white); line-height: 1; }
+    .score-num .small { font-size: 11px; color: var(--subtle); margin-top: 4px; }
+    .result-level-name { font-family: 'Syne', sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; color: var(--white); letter-spacing: -0.01em; margin-bottom: 12px; }
+    .result-level-name em { font-style: normal; background: linear-gradient(135deg, var(--sky), var(--vivid)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .result-summary { font-size: 15px; font-weight: 300; color: var(--subtle); max-width: 520px; margin: 0 auto; line-height: 1.75; }
 
-    .score-num {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    /* PROFILE CONTEXT BANNER */
+    .profile-banner {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+      margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--border);
     }
+    .profile-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(43,127,255,0.1); border: 1px solid rgba(90,173,255,0.2); border-radius: 100px; font-size: 12px; color: var(--sky); }
 
-    .score-num .big { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; color: var(--white); line-height: 1; }
-    .score-num .small { font-size: 12px; color: var(--subtle); margin-top: 4px; }
-
-    .result-level-name {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
-      font-weight: 800;
-      color: var(--white);
-      letter-spacing: -0.01em;
-      margin-bottom: 12px;
-    }
-
-    .result-level-name em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--sky), var(--vivid));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .result-summary {
-      font-size: 15px;
-      font-weight: 300;
-      color: var(--subtle);
-      max-width: 500px;
-      margin: 0 auto;
-      line-height: 1.75;
-    }
-
-    /* RADAR CHART */
-    .radar-wrap {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 32px;
-      backdrop-filter: blur(12px);
-      margin-bottom: 32px;
-      text-align: center;
-    }
-
-    .section-label {
-      font-family: 'Syne', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--sky);
-      margin-bottom: 24px;
-    }
+    /* RADAR */
+    .radar-wrap { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 32px; backdrop-filter: blur(12px); margin-bottom: 32px; text-align: center; }
+    .section-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky); margin-bottom: 24px; }
 
     /* CATEGORY CARDS */
-    .categories-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-
-    .cat-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      backdrop-filter: blur(12px);
-      transition: border-color 0.3s, transform 0.2s;
-    }
-
+    .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; margin-bottom: 32px; }
+    .cat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 24px; backdrop-filter: blur(12px); transition: border-color 0.3s, transform 0.2s; }
     .cat-card:hover { border-color: rgba(90,173,255,0.35); transform: translateY(-2px); }
-
-    .cat-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .cat-icon {
-      width: 38px; height: 38px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      background: rgba(43,127,255,0.12);
-      border: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-
-    .cat-name {
-      font-family: 'Syne', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--white);
-    }
-
+    .cat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .cat-icon { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; background: rgba(43,127,255,0.12); border: 1px solid var(--border); flex-shrink: 0; }
+    .cat-name { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--white); }
     .cat-score-text { font-size: 12px; color: var(--subtle); }
-
-    .cat-bar-bg {
-      height: 5px;
-      background: rgba(90,173,255,0.1);
-      border-radius: 100px;
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-
-    .cat-bar-fill {
-      height: 100%;
-      border-radius: 100px;
-      background: linear-gradient(90deg, var(--royal), var(--vivid));
-      transition: width 1s ease;
-      width: 0%;
-    }
-
-    .cat-status {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      padding: 3px 10px;
-      border-radius: 100px;
-      margin-bottom: 12px;
-    }
-
+    .cat-bar-bg { height: 5px; background: rgba(90,173,255,0.1); border-radius: 100px; overflow: hidden; margin-bottom: 12px; }
+    .cat-bar-fill { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--royal), var(--vivid)); transition: width 1s ease; width: 0%; }
+    .cat-status { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.06em; padding: 3px 10px; border-radius: 100px; margin-bottom: 12px; }
     .status-excellent { background: rgba(43,127,255,0.18); color: var(--sky); border: 1px solid rgba(43,127,255,0.3); }
     .status-good { background: rgba(26,86,219,0.18); color: var(--mist); border: 1px solid rgba(26,86,219,0.3); }
     .status-fair { background: rgba(255,180,50,0.12); color: #ffd080; border: 1px solid rgba(255,180,50,0.25); }
     .status-poor { background: rgba(255,80,100,0.12); color: #ff9aaa; border: 1px solid rgba(255,80,100,0.2); }
-
     .cat-analysis { font-size: 13px; color: var(--subtle); line-height: 1.6; }
 
-    /* RECOMMENDATIONS */
-    .reco-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 28px 32px;
-      backdrop-filter: blur(12px);
-      margin-bottom: 16px;
+    /* CONTEXT CALLOUT */
+    .context-callout {
+      background: rgba(13,45,143,0.3); border: 1px solid rgba(43,127,255,0.25);
+      border-radius: 12px; padding: 14px 18px; margin-top: 14px;
+      font-size: 13px; color: var(--mist); line-height: 1.6;
+      display: flex; gap: 10px; align-items: flex-start;
     }
+    .context-callout .cc-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
 
-    .reco-title {
-      font-family: 'Syne', sans-serif;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
+    /* RECOS */
+    .reco-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 28px 32px; backdrop-filter: blur(12px); margin-bottom: 16px; }
+    .reco-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--white); display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
     .reco-items { display: flex; flex-direction: column; gap: 10px; }
-
-    .reco-item {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      font-size: 14px;
-      color: var(--text);
-      line-height: 1.65;
-    }
-
-    .reco-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--vivid);
-      margin-top: 8px;
-      flex-shrink: 0;
-    }
-
-    /* OVERALL RECO */
-    .overall-reco {
-      background: linear-gradient(135deg, rgba(13,45,143,0.5), rgba(26,86,219,0.25));
-      border: 1px solid rgba(43,127,255,0.3);
-      border-radius: 20px;
-      padding: 32px;
-      margin-bottom: 16px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .overall-reco::before {
-      content: '';
-      position: absolute;
-      top: -40px; right: -40px;
-      width: 160px; height: 160px;
-      background: radial-gradient(circle, rgba(43,127,255,0.15) 0%, transparent 70%);
-    }
-
-    .overall-reco-label {
-      font-family: 'Syne', sans-serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--sky);
-      margin-bottom: 12px;
-    }
-
-    .overall-reco-text {
-      font-size: 15px;
-      color: var(--text);
-      line-height: 1.8;
-      position: relative;
-    }
-
-    .retry-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 32px;
-      padding: 14px 32px;
-      background: transparent;
-      color: var(--sky);
-      font-family: 'Syne', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
+    .reco-item { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; color: var(--text); line-height: 1.65; }
+    .reco-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--vivid); margin-top: 8px; flex-shrink: 0; }
+    .overall-reco { background: linear-gradient(135deg, rgba(13,45,143,0.5), rgba(26,86,219,0.25)); border: 1px solid rgba(43,127,255,0.3); border-radius: 20px; padding: 32px; margin-bottom: 16px; position: relative; overflow: hidden; }
+    .overall-reco::before { content: ''; position: absolute; top: -40px; right: -40px; width: 160px; height: 160px; background: radial-gradient(circle, rgba(43,127,255,0.15) 0%, transparent 70%); }
+    .overall-reco-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky); margin-bottom: 12px; }
+    .overall-reco-text { font-size: 15px; color: var(--text); line-height: 1.8; position: relative; }
+    .retry-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 32px; padding: 14px 32px; background: transparent; color: var(--sky); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; border: 1px solid var(--border); border-radius: 100px; cursor: pointer; transition: all 0.3s ease; }
     .retry-btn:hover { border-color: var(--vivid); color: var(--white); background: rgba(43,127,255,0.1); }
 
     /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-6px); }
-      75% { transform: translateX(6px); }
-    }
-
-    @keyframes countUp {
-      from { opacity: 0; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1); }
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
     /* RESPONSIVE */
     @media (max-width: 600px) {
@@ -683,6 +232,7 @@
       .option-dot { width: 16px; height: 16px; }
       .categories-grid { grid-template-columns: 1fr; }
       .question-card { padding: 18px 16px; }
+      .onboarding-card { padding: 28px 20px; }
     }
   </style>
 </head>
@@ -691,97 +241,134 @@
 <div id="loadingOverlay">
   <div class="loader-ring"></div>
   <div class="loader-text">ANALYZING YOUR PROFILE...</div>
+  <div class="loader-sub">Cross-referencing 6 dimensions</div>
 </div>
 
 <div class="wrapper">
 
   <!-- HEADER -->
-  <div class="header" id="formSection">
+  <div class="header">
     <div class="vaxa-badge"><span></span> VAXA Mentoring Platform</div>
+    <div class="version-tag">EPA v2.0</div>
     <h1 class="title">Entrepreneurial<br><em>Potential Assessment</em></h1>
-    <p class="header-sub">50 calibrated questions across 5 dimensions. Honest scoring. No fluff in the results.</p>
+    <p class="header-sub">60 calibrated questions across 6 dimensions. Context-aware scoring. No fluff in the results.</p>
     <div class="progress-bar-wrap">
       <div class="progress-bar-fill" id="progressFill"></div>
     </div>
-    <div class="progress-label" id="progressLabel">0 of 50 answered</div>
+    <div class="progress-label" id="progressLabel">0 of 60 answered</div>
+  </div>
+
+  <!-- ONBOARDING -->
+  <div id="onboardingSection">
+    <div class="onboarding-card">
+      <div class="onboarding-title">Before We Begin</div>
+      <div class="onboarding-sub">Four quick questions. Your answers make the results specific to where you actually are — not where a generic founder is. This takes 30 seconds.</div>
+
+      <div class="onboarding-field">
+        <span class="field-label">Your Current Stage</span>
+        <div class="chip-group">
+          <label class="chip-label"><input type="radio" name="stage" value="idea"><div class="chip-btn">Idea Stage</div></label>
+          <label class="chip-label"><input type="radio" name="stage" value="preseed"><div class="chip-btn">Pre-Seed / Validating</div></label>
+          <label class="chip-label"><input type="radio" name="stage" value="seed"><div class="chip-btn">Seed / Early Traction</div></label>
+          <label class="chip-label"><input type="radio" name="stage" value="growth"><div class="chip-btn">Growth Stage</div></label>
+          <label class="chip-label"><input type="radio" name="stage" value="aspiring"><div class="chip-btn">Aspiring (Not Started Yet)</div></label>
+        </div>
+      </div>
+
+      <div class="onboarding-field">
+        <span class="field-label">Business Model</span>
+        <div class="chip-group">
+          <label class="chip-label"><input type="radio" name="model" value="b2b"><div class="chip-btn">B2B</div></label>
+          <label class="chip-label"><input type="radio" name="model" value="b2c"><div class="chip-btn">B2C</div></label>
+          <label class="chip-label"><input type="radio" name="model" value="b2b2c"><div class="chip-btn">B2B2C</div></label>
+          <label class="chip-label"><input type="radio" name="model" value="marketplace"><div class="chip-btn">Marketplace</div></label>
+          <label class="chip-label"><input type="radio" name="model" value="saas"><div class="chip-btn">SaaS</div></label>
+          <label class="chip-label"><input type="radio" name="model" value="unsure"><div class="chip-btn">Not Sure Yet</div></label>
+        </div>
+      </div>
+
+      <div class="onboarding-field">
+        <span class="field-label">Team Setup</span>
+        <div class="chip-group">
+          <label class="chip-label"><input type="radio" name="team" value="solo"><div class="chip-btn">Solo Founder</div></label>
+          <label class="chip-label"><input type="radio" name="team" value="cofounders"><div class="chip-btn">With Co-Founder(s)</div></label>
+          <label class="chip-label"><input type="radio" name="team" value="team"><div class="chip-btn">Have a Team</div></label>
+        </div>
+      </div>
+
+      <div class="onboarding-field">
+        <span class="field-label">Do You Have Paying Customers / Users?</span>
+        <div class="chip-group">
+          <label class="chip-label"><input type="radio" name="traction" value="none"><div class="chip-btn">No, not yet</div></label>
+          <label class="chip-label"><input type="radio" name="traction" value="pilot"><div class="chip-btn">Pilot / Free Users</div></label>
+          <label class="chip-label"><input type="radio" name="traction" value="paying"><div class="chip-btn">Yes, paying customers</div></label>
+          <label class="chip-label"><input type="radio" name="traction" value="revenue"><div class="chip-btn">Yes, meaningful revenue</div></label>
+        </div>
+      </div>
+
+      <button class="btn-start" onclick="startAssessment()">
+        Start Assessment <span style="font-size:18px;">→</span>
+      </button>
+      <div class="onboard-error" id="onboardError">Please answer all four profile questions to continue.</div>
+    </div>
   </div>
 
   <!-- FORM -->
-  <form id="assessmentForm" onsubmit="return false;">
+  <form id="assessmentForm" style="display:none;" onsubmit="return false;">
 
-    <!-- MINDSET -->
     <div class="section-header">
       <div class="section-icon" style="background:rgba(43,127,255,0.1)">🧠</div>
-      <div>
-        <div class="section-title">Mindset</div>
-        <div class="section-count">Questions 1 – 10</div>
-      </div>
+      <div><div class="section-title">Mindset</div><div class="section-count">Questions 1 – 10</div></div>
       <div class="section-line"></div>
     </div>
-
     <div id="mindset-questions"></div>
 
-    <!-- SKILLS -->
     <div class="section-header">
       <div class="section-icon" style="background:rgba(26,86,219,0.12)">⚡</div>
-      <div>
-        <div class="section-title">Skills</div>
-        <div class="section-count">Questions 11 – 20</div>
-      </div>
+      <div><div class="section-title">Skills</div><div class="section-count">Questions 11 – 20</div></div>
       <div class="section-line"></div>
     </div>
-
     <div id="skills-questions"></div>
 
-    <!-- LEADERSHIP -->
     <div class="section-header">
       <div class="section-icon" style="background:rgba(13,45,143,0.2)">🎯</div>
-      <div>
-        <div class="section-title">Leadership</div>
-        <div class="section-count">Questions 21 – 30</div>
-      </div>
+      <div><div class="section-title">Leadership</div><div class="section-count">Questions 21 – 30</div></div>
       <div class="section-line"></div>
     </div>
-
     <div id="leadership-questions"></div>
 
-    <!-- PERSONALITY -->
     <div class="section-header">
       <div class="section-icon" style="background:rgba(90,173,255,0.08)">🔮</div>
-      <div>
-        <div class="section-title">Personality</div>
-        <div class="section-count">Questions 31 – 40</div>
-      </div>
+      <div><div class="section-title">Personality</div><div class="section-count">Questions 31 – 40</div></div>
       <div class="section-line"></div>
     </div>
-
     <div id="personality-questions"></div>
 
-    <!-- STRESS -->
     <div class="section-header">
       <div class="section-icon" style="background:rgba(168,212,255,0.06)">🛡️</div>
-      <div>
-        <div class="section-title">Stress Management</div>
-        <div class="section-count">Questions 41 – 50</div>
-      </div>
+      <div><div class="section-title">Stress Management</div><div class="section-count">Questions 41 – 50</div></div>
       <div class="section-line"></div>
     </div>
-
     <div id="stress-questions"></div>
+
+    <div class="section-header">
+      <div class="section-icon" style="background:rgba(43,127,255,0.15)">🔍</div>
+      <div><div class="section-title">Domain Knowledge & Market Literacy</div><div class="section-count">Questions 51 – 60</div></div>
+      <div class="section-line"></div>
+    </div>
+    <div id="domain-questions"></div>
 
     <div class="submit-wrap">
       <button class="btn-submit" onclick="submitAssessment()">
         <span>See My Results</span>
         <span class="btn-arrow">→</span>
       </button>
-      <div class="error-msg" id="errorMsg">Please answer all 50 questions before submitting.</div>
+      <div class="error-msg" id="errorMsg">Please answer all 60 questions before submitting.</div>
     </div>
-
   </form>
 
   <!-- RESULTS -->
   <div id="resultSection">
-
     <div class="result-hero">
       <div class="result-level-badge" id="resultBadge">Your Result</div>
       <div class="result-score-ring">
@@ -797,28 +384,25 @@
         </svg>
         <div class="score-num">
           <div class="big" id="scoreBig">0</div>
-          <div class="small">/ 250</div>
+          <div class="small">/ 300</div>
         </div>
       </div>
       <div class="result-level-name" id="resultLevelName">Loading...</div>
       <p class="result-summary" id="resultSummary"></p>
+      <div class="profile-banner" id="profileBanner"></div>
     </div>
 
-    <!-- RADAR -->
     <div class="radar-wrap">
-      <div class="section-label">5-Dimension Snapshot</div>
-      <canvas id="radarChart" width="400" height="320" style="max-width:100%;"></canvas>
+      <div class="section-label">6-Dimension Snapshot</div>
+      <canvas id="radarChart" width="420" height="340" style="max-width:100%;"></canvas>
     </div>
 
-    <!-- CATEGORY BREAKDOWN -->
     <div class="section-label" style="padding:0 4px 16px;">Category Breakdown</div>
     <div class="categories-grid" id="categoriesGrid"></div>
 
-    <!-- RECOMMENDATIONS -->
     <div class="section-label" style="padding:16px 4px 16px;">Action Plan</div>
     <div id="recoCards"></div>
 
-    <!-- OVERALL -->
     <div class="overall-reco">
       <div class="overall-reco-label">Overall Verdict</div>
       <div class="overall-reco-text" id="overallRecoText"></div>
@@ -827,7 +411,6 @@
     <div style="text-align:center;">
       <button class="retry-btn" onclick="resetAssessment()">↺ Retake Assessment</button>
     </div>
-
   </div>
 
 </div>
@@ -839,69 +422,100 @@
       "I am always looking for new opportunities to grow and improve.",
       "I am confident in my ability to overcome challenges.",
       "I am willing to take calculated risks to achieve my goals.",
-      "I am persistent and do not give up easily.",
-      "I am open to feedback and use it to improve myself.",
-      "I believe in my ability to create a successful future.",
-      "I am always curious and eager to learn new things.",
-      "I am comfortable with uncertainty and ambiguity.",
-      "I am proactive and take initiative in most situations."
+      "I am persistent and do not give up easily when facing obstacles.",
+      "I am open to feedback and actively use it to improve myself.",
+      "I believe in my ability to create a successful future regardless of current circumstances.",
+      "I am always curious and eager to learn new things outside my comfort zone.",
+      "I am comfortable operating in uncertain and ambiguous environments.",
+      "I am proactive and take initiative rather than waiting for direction."
     ],
     skills: [
-      "I have strong problem-solving skills.",
-      "I am skilled at managing my time effectively.",
-      "I am good at identifying market opportunities.",
-      "I am proficient in financial planning and budgeting.",
+      "I have strong problem-solving skills and can break down complex problems systematically.",
+      "I am skilled at managing my time and prioritizing what moves the needle.",
+      "I am good at identifying market opportunities before they become obvious.",
+      "I am proficient in financial planning, unit economics, and basic budgeting.",
       "I have strong communication and negotiation skills.",
-      "I am skilled at building and maintaining professional networks.",
-      "I am adept at using technology to improve efficiency.",
-      "I am capable of creating and executing a business plan.",
-      "I am skilled at analyzing data to make informed decisions.",
-      "I am capable of adapting to new technologies and trends."
+      "I am skilled at building and maintaining professional networks that generate real value.",
+      "I am adept at using technology and tools to improve operational efficiency.",
+      "I am capable of creating and executing a business plan end to end.",
+      "I am skilled at analyzing data to make informed, evidence-based decisions.",
+      "I can adapt quickly to new technologies and market shifts."
     ],
     leadership: [
-      "I can inspire and motivate others to achieve common goals.",
-      "I am good at delegating tasks to the right people.",
-      "I am effective at resolving conflicts within a team.",
-      "I am capable of making tough decisions under pressure.",
-      "I am skilled at setting clear goals and expectations for my team.",
-      "I am good at recognizing and nurturing talent in others.",
-      "I am able to lead by example and demonstrate integrity.",
-      "I am comfortable with taking responsibility for team outcomes.",
-      "I am effective at communicating my vision to others.",
-      "I am able to adapt my leadership style to different situations."
+      "I can inspire and motivate others to pursue common goals without relying on authority.",
+      "I am effective at delegating tasks and decision-making authority to the right people.",
+      "I am good at resolving conflicts within a team before they escalate.",
+      "I can make tough decisions under pressure without excessive second-guessing.",
+      "I am skilled at setting clear goals and expectations that my team actually understands.",
+      "I can recognize and nurture talent in people, including in areas I am personally weak in.",
+      "I lead by example and hold myself to the same standards I set for others.",
+      "I take full responsibility for team outcomes, including failures.",
+      "I communicate my vision in a way that makes others want to be part of it.",
+      "I adapt my leadership style to different people and situations."
     ],
     personality: [
-      "I am comfortable working in high-pressure environments.",
-      "I am naturally optimistic and see opportunities in challenges.",
-      "I am empathetic and understand the feelings of others.",
-      "I am confident in expressing my ideas and opinions.",
-      "I am adaptable and can adjust to new situations quickly.",
-      "I am self-motivated and do not need constant supervision.",
-      "I am patient and can handle delays or setbacks without frustration.",
-      "I am detail-oriented and pay attention to small but important aspects.",
-      "I am comfortable with public speaking and presenting ideas.",
-      "I am resilient and can bounce back quickly from failures."
+      "I am comfortable working in high-pressure, high-stakes environments for extended periods.",
+      "I am naturally optimistic but can also be realistic about challenges.",
+      "I am empathetic and can understand perspectives that differ significantly from my own.",
+      "I am confident in expressing my ideas and standing behind them, even under pushback.",
+      "I adapt quickly when situations change in ways I did not expect.",
+      "I am self-motivated and sustain progress without external pressure or supervision.",
+      "I am patient with slow progress and can stay focused on long-term goals.",
+      "I pay close attention to detail without losing sight of the bigger picture.",
+      "I am comfortable presenting ideas to audiences that are skeptical or unfamiliar.",
+      "I bounce back quickly from failures without prolonged loss of motivation."
     ],
     stress: [
-      "I can manage stress effectively without letting it affect my work.",
-      "I practice relaxation techniques to reduce stress.",
-      "I maintain a healthy work-life balance.",
-      "I am able to stay calm and focused during crises.",
-      "I prioritize tasks effectively to avoid feeling overwhelmed.",
-      "I seek support from others when I feel stressed.",
-      "I take regular breaks to recharge and avoid burnout.",
-      "I am able to identify the sources of my stress and address them effectively.",
-      "I maintain a positive attitude even in stressful situations.",
-      "I am able to set boundaries to protect my mental well-being."
+      "I manage stress effectively without letting it impair my decision-making.",
+      "I have specific practices that help me recover and recharge regularly.",
+      "I maintain a sustainable work-life balance even during intense periods.",
+      "I remain calm and focused when a crisis hits and others are panicking.",
+      "I prioritize my workload to prevent chronic overwhelm.",
+      "I proactively seek support from mentors, peers, or professionals when under strain.",
+      "I take deliberate breaks and avoid running at full intensity indefinitely.",
+      "I can accurately identify the sources of my stress and address them at the root.",
+      "I maintain a constructive outlook even when multiple things are going wrong simultaneously.",
+      "I protect my mental and emotional well-being by setting boundaries with work and people."
+    ],
+    domain: [
+      "I have a deep understanding of the specific problem I want to solve and why it exists.",
+      "I can articulate exactly who my target customer is and what their daily frustrations look like.",
+      "I have done direct primary research with potential customers, not just secondary desk research.",
+      "I understand the competitive landscape in my market and can name the key players and their weaknesses.",
+      "I know the key metrics and benchmarks that define success in my target industry.",
+      "I understand how money flows in my industry — who pays, who captures value, and where margins live.",
+      "I can identify macro trends (regulatory, technological, behavioral) that will shape my market in the next 3 years.",
+      "I have domain credibility or access to deep domain expertise in the industry I am entering.",
+      "I understand the sales cycle, buying behavior, and decision-making process of my target customer.",
+      "I can identify the critical assumptions my business model depends on and have a plan to test them."
     ]
   };
 
   const optionLabels = ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"];
+  let userProfile = {};
 
-  let qIndex = 0;
+  function startAssessment() {
+    const fields = ['stage','model','team','traction'];
+    for (const f of fields) {
+      if (!document.querySelector(`input[name="${f}"]:checked`)) {
+        document.getElementById('onboardError').style.display = 'block';
+        return;
+      }
+    }
+    userProfile = {
+      stage: document.querySelector('input[name="stage"]:checked').value,
+      model: document.querySelector('input[name="model"]:checked').value,
+      team: document.querySelector('input[name="team"]:checked').value,
+      traction: document.querySelector('input[name="traction"]:checked').value
+    };
+    document.getElementById('onboardingSection').style.display = 'none';
+    document.getElementById('assessmentForm').style.display = 'block';
+    buildQuestions();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   function buildQuestions() {
-    const sections = ['mindset','skills','leadership','personality','stress'];
+    const sections = ['mindset','skills','leadership','personality','stress','domain'];
     sections.forEach((sec, sIdx) => {
       const container = document.getElementById(`${sec}-questions`);
       questions[sec].forEach((q, i) => {
@@ -910,7 +524,6 @@
         card.className = 'question-card';
         card.id = `card-q${num}`;
         card.style.animationDelay = `${(i % 10) * 0.05}s`;
-
         card.innerHTML = `
           <div class="q-number">Q${num.toString().padStart(2,'0')}</div>
           <div class="question-text">${q}</div>
@@ -939,17 +552,16 @@
 
   function updateProgress() {
     let answered = 0;
-    for (let i = 1; i <= 50; i++) {
+    for (let i = 1; i <= 60; i++) {
       if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
     }
-    const pct = (answered / 50) * 100;
+    const pct = (answered / 60) * 100;
     document.getElementById('progressFill').style.width = pct + '%';
-    document.getElementById('progressLabel').textContent = `${answered} of 50 answered`;
+    document.getElementById('progressLabel').textContent = `${answered} of 60 answered`;
   }
 
   function submitAssessment() {
-    // Validate all answered
-    for (let i = 1; i <= 50; i++) {
+    for (let i = 1; i <= 60; i++) {
       if (!document.querySelector(`input[name="q${i}"]:checked`)) {
         document.getElementById('errorMsg').style.display = 'block';
         document.getElementById(`card-q${i}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -959,15 +571,15 @@
     document.getElementById('errorMsg').style.display = 'none';
     document.getElementById('loadingOverlay').classList.add('active');
 
-    // Compute scores
-    const cats = { Mindset: 0, Skills: 0, Leadership: 0, Personality: 0, StressManagement: 0 };
-    for (let i = 1; i <= 50; i++) {
+    const cats = { Mindset:0, Skills:0, Leadership:0, Personality:0, StressManagement:0, DomainKnowledge:0 };
+    for (let i = 1; i <= 60; i++) {
       const v = parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);
       if (i <= 10) cats.Mindset += v;
       else if (i <= 20) cats.Skills += v;
       else if (i <= 30) cats.Leadership += v;
       else if (i <= 40) cats.Personality += v;
-      else cats.StressManagement += v;
+      else if (i <= 50) cats.StressManagement += v;
+      else cats.DomainKnowledge += v;
     }
     const total = Object.values(cats).reduce((a,b) => a+b, 0);
     const avgs = {};
@@ -976,37 +588,49 @@
     setTimeout(() => {
       document.getElementById('loadingOverlay').classList.remove('active');
       showResults(cats, avgs, total);
-    }, 1800);
+    }, 2000);
   }
 
   function showResults(cats, avgs, total) {
-    document.getElementById('formSection').style.display = 'none';
     document.getElementById('assessmentForm').style.display = 'none';
     document.getElementById('resultSection').style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
 
-    // Overall level
-    let level, levelColor;
-    if (total >= 200) { level = "Excellent Potential"; levelColor = "#5aadff"; }
-    else if (total >= 150) { level = "Good Potential"; levelColor = "#a8d4ff"; }
-    else if (total >= 100) { level = "Moderate Potential"; levelColor = "#ffd080"; }
-    else { level = "Needs Development"; levelColor = "#ff9aaa"; }
+    let level;
+    if (total >= 240) level = "Excellent Potential";
+    else if (total >= 180) level = "Good Potential";
+    else if (total >= 120) level = "Moderate Potential";
+    else level = "Needs Development";
 
-    document.getElementById('resultBadge').textContent = `Score: ${total} / 250`;
-    document.getElementById('resultLevelName').innerHTML = level.replace(' ', ' <em>') + '</em>';
+    document.getElementById('resultBadge').textContent = `Score: ${total} / 300`;
+
+    const lvlParts = level.split(' ');
+    document.getElementById('resultLevelName').innerHTML = lvlParts.slice(0,-1).join(' ') + ' <em>' + lvlParts.slice(-1) + '</em>';
 
     const summaryMap = {
-      "Excellent Potential": "You consistently demonstrate the traits of a high-agency operator. Your baseline is strong — now it's about execution, not preparation.",
-      "Good Potential": "Solid foundation across most dimensions. A few specific gaps are holding you back from your ceiling. Those gaps are fixable.",
-      "Moderate Potential": "You have real strengths, but the weak dimensions will create friction at every growth stage. Targeted intervention is non-negotiable.",
-      "Needs Development": "The self-awareness to take this assessment is itself a signal. The gap between where you are and where you need to be is wide — but it's a skills gap, not a fixed one."
+      "Excellent Potential": "You consistently demonstrate the traits, skills, and market awareness of a high-agency operator. Your baseline is strong across all six dimensions. The question now is execution velocity and the quality of the problem you are choosing to solve.",
+      "Good Potential": "Solid foundation with specific, identifiable gaps. You have what it takes to execute — a few dimensions are creating drag on your ceiling. Those are fixable with deliberate work in the next 90 days.",
+      "Moderate Potential": "You have genuine strengths, but the weak dimensions will create friction at every growth stage. One or two of those gaps are structural enough to cause real failure. Targeted, disciplined intervention is non-negotiable.",
+      "Needs Development": "The self-awareness to take this honestly is itself a signal. The gap is wide but it is a skills and knowledge gap — not a fixed one. You have a map now. Use it."
     };
     document.getElementById('resultSummary').textContent = summaryMap[level];
 
-    // Animate score ring
-    const pct = total / 250;
-    const circumference = 364;
-    const offset = circumference * (1 - pct);
+    // Profile banner
+    const stageLabels = { idea:'Idea Stage', preseed:'Pre-Seed', seed:'Seed / Early Traction', growth:'Growth Stage', aspiring:'Aspiring Founder' };
+    const modelLabels = { b2b:'B2B', b2c:'B2C', b2b2c:'B2B2C', marketplace:'Marketplace', saas:'SaaS', unsure:'Model TBD' };
+    const teamLabels = { solo:'Solo Founder', cofounders:'With Co-Founder(s)', team:'Has a Team' };
+    const tractionLabels = { none:'No Traction Yet', pilot:'Pilot / Free Users', paying:'Paying Customers', revenue:'Meaningful Revenue' };
+    const banner = document.getElementById('profileBanner');
+    banner.innerHTML = [
+      stageLabels[userProfile.stage],
+      modelLabels[userProfile.model],
+      teamLabels[userProfile.team],
+      tractionLabels[userProfile.traction]
+    ].map(l => `<div class="profile-chip">● ${l}</div>`).join('');
+
+    // Animate ring
+    const pct = total / 300;
+    const offset = 364 * (1 - pct);
     setTimeout(() => {
       document.getElementById('scoreCircle').style.strokeDashoffset = offset;
       document.getElementById('scoreCircle').style.transition = 'stroke-dashoffset 1.2s ease';
@@ -1020,62 +644,10 @@
       document.getElementById('scoreBig').textContent = current;
     }, 30);
 
-    // Draw radar
     setTimeout(() => drawRadar(avgs), 400);
-
-    // Category cards
-    const catMeta = {
-      Mindset: { icon: '🧠', label: 'Mindset' },
-      Skills: { icon: '⚡', label: 'Skills' },
-      Leadership: { icon: '🎯', label: 'Leadership' },
-      Personality: { icon: '🔮', label: 'Personality' },
-      StressManagement: { icon: '🛡️', label: 'Stress Mgmt' }
-    };
-
-    const grid = document.getElementById('categoriesGrid');
-    grid.innerHTML = '';
-    Object.keys(avgs).forEach(k => {
-      const avg = avgs[k];
-      const pct = (avg / 5) * 100;
-      let statusClass, statusLabel, analysisText;
-
-      if (avg >= 4) { statusClass = 'status-excellent'; statusLabel = 'Excellent'; }
-      else if (avg >= 3) { statusClass = 'status-good'; statusLabel = 'Good'; }
-      else if (avg >= 2) { statusClass = 'status-fair'; statusLabel = 'Needs Work'; }
-      else { statusClass = 'status-poor'; statusLabel = 'Critical Gap'; }
-
-      analysisText = getCatAnalysis(k, avg);
-
-      const card = document.createElement('div');
-      card.className = 'cat-card';
-      card.innerHTML = `
-        <div class="cat-header">
-          <div class="cat-icon">${catMeta[k].icon}</div>
-          <div>
-            <div class="cat-name">${catMeta[k].label}</div>
-            <div class="cat-score-text">${avg.toFixed(1)} / 5.0 avg</div>
-          </div>
-        </div>
-        <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:0%" data-pct="${pct}"></div></div>
-        <span class="cat-status ${statusClass}">${statusLabel}</span>
-        <div class="cat-analysis">${analysisText}</div>
-      `;
-      grid.appendChild(card);
-    });
-
-    // Animate bars
-    setTimeout(() => {
-      document.querySelectorAll('.cat-bar-fill').forEach(el => {
-        el.style.width = el.dataset.pct + '%';
-        el.style.transition = 'width 1s ease';
-      });
-    }, 300);
-
-    // Reco cards
-    buildRecos(avgs);
-
-    // Overall reco
-    document.getElementById('overallRecoText').textContent = getOverallReco(level);
+    buildCategoryCards(avgs);
+    buildRecos(avgs, userProfile);
+    document.getElementById('overallRecoText').textContent = getOverallReco(level, userProfile);
   }
 
   function drawRadar(avgs) {
@@ -1083,15 +655,13 @@
     const ctx = canvas.getContext('2d');
     const W = canvas.width, H = canvas.height;
     const cx = W / 2, cy = H / 2;
-    const R = Math.min(W, H) * 0.36;
-    const labels = ['Mindset', 'Skills', 'Leadership', 'Personality', 'Stress\nMgmt'];
-    const keys = ['Mindset','Skills','Leadership','Personality','StressManagement'];
-    const n = 5;
+    const R = Math.min(W, H) * 0.33;
+    const labels = ['Mindset', 'Skills', 'Leadership', 'Personality', 'Stress\nMgmt', 'Domain\nKnowledge'];
+    const keys = ['Mindset','Skills','Leadership','Personality','StressManagement','DomainKnowledge'];
+    const n = 6;
     const step = (Math.PI * 2) / n;
 
     ctx.clearRect(0, 0, W, H);
-
-    // Grid circles
     for (let lvl = 1; lvl <= 5; lvl++) {
       ctx.beginPath();
       for (let i = 0; i < n; i++) {
@@ -1106,8 +676,6 @@
       ctx.lineWidth = 1;
       ctx.stroke();
     }
-
-    // Spokes
     for (let i = 0; i < n; i++) {
       const angle = -Math.PI/2 + i * step;
       ctx.beginPath();
@@ -1117,8 +685,6 @@
       ctx.lineWidth = 1;
       ctx.stroke();
     }
-
-    // Data polygon
     ctx.beginPath();
     keys.forEach((k, i) => {
       const val = avgs[k] / 5;
@@ -1133,8 +699,6 @@
     ctx.strokeStyle = 'rgba(90,173,255,0.8)';
     ctx.lineWidth = 2;
     ctx.stroke();
-
-    // Data points
     keys.forEach((k, i) => {
       const val = avgs[k] / 5;
       const angle = -Math.PI/2 + i * step;
@@ -1148,99 +712,194 @@
       ctx.lineWidth = 2;
       ctx.stroke();
     });
-
-    // Labels
     ctx.fillStyle = '#6a90b8';
-    ctx.font = '12px DM Sans, sans-serif';
+    ctx.font = '11px DM Sans, sans-serif';
     ctx.textAlign = 'center';
     labels.forEach((lbl, i) => {
       const angle = -Math.PI/2 + i * step;
-      const labelR = R + 26;
+      const labelR = R + 28;
       const x = cx + labelR * Math.cos(angle);
       const y = cy + labelR * Math.sin(angle);
-      const lines = lbl.split('\n');
-      lines.forEach((line, li) => {
-        ctx.fillText(line, x, y + li * 14);
-      });
+      lbl.split('\n').forEach((line, li) => ctx.fillText(line, x, y + li * 14));
     });
+  }
+
+  function buildCategoryCards(avgs) {
+    const catMeta = {
+      Mindset: { icon: '🧠', label: 'Mindset' },
+      Skills: { icon: '⚡', label: 'Skills' },
+      Leadership: { icon: '🎯', label: 'Leadership' },
+      Personality: { icon: '🔮', label: 'Personality' },
+      StressManagement: { icon: '🛡️', label: 'Stress Management' },
+      DomainKnowledge: { icon: '🔍', label: 'Domain Knowledge' }
+    };
+    const grid = document.getElementById('categoriesGrid');
+    grid.innerHTML = '';
+    Object.keys(avgs).forEach(k => {
+      const avg = avgs[k];
+      const pct = (avg / 5) * 100;
+      let statusClass, statusLabel;
+      if (avg >= 4) { statusClass = 'status-excellent'; statusLabel = 'Excellent'; }
+      else if (avg >= 3) { statusClass = 'status-good'; statusLabel = 'Good'; }
+      else if (avg >= 2) { statusClass = 'status-fair'; statusLabel = 'Needs Work'; }
+      else { statusClass = 'status-poor'; statusLabel = 'Critical Gap'; }
+
+      const contextNote = getContextNote(k, avg, userProfile);
+      const card = document.createElement('div');
+      card.className = 'cat-card';
+      card.innerHTML = `
+        <div class="cat-header">
+          <div class="cat-icon">${catMeta[k].icon}</div>
+          <div>
+            <div class="cat-name">${catMeta[k].label}</div>
+            <div class="cat-score-text">${avg.toFixed(1)} / 5.0 avg</div>
+          </div>
+        </div>
+        <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:0%" data-pct="${pct}"></div></div>
+        <span class="cat-status ${statusClass}">${statusLabel}</span>
+        <div class="cat-analysis">${getCatAnalysis(k, avg)}</div>
+        ${contextNote ? `<div class="context-callout"><div class="cc-icon">💡</div><div>${contextNote}</div></div>` : ''}
+      `;
+      grid.appendChild(card);
+    });
+    setTimeout(() => {
+      document.querySelectorAll('.cat-bar-fill').forEach(el => {
+        el.style.width = el.dataset.pct + '%';
+        el.style.transition = 'width 1s ease';
+      });
+    }, 300);
+  }
+
+  function getContextNote(cat, avg, profile) {
+    const notes = {
+      Leadership: {
+        solo: avg < 3.5 ? "As a solo founder, leadership gaps are less urgent now — but you will face them at the first hire. Prepare before that moment arrives, not after." : null,
+        cofounders: avg < 3 ? "Low leadership scores with co-founders is a structural risk. Co-founder conflict is the #1 cause of early startup death. Address this urgently." : null,
+        team: avg < 3 ? "You already have a team and leadership is below 3.0. This is actively costing you execution capacity right now." : null
+      },
+      DomainKnowledge: {
+        aspiring: avg < 3 ? "You have not started yet — low domain knowledge at this stage means you are likely to build for a problem you do not fully understand. Fix this before committing." : null,
+        idea: avg < 3 ? "Idea stage with low domain knowledge is the most common failure setup. Build your market understanding before building your product." : null,
+        seed: avg < 3.5 ? "You are at seed stage with domain knowledge below 3.5. At this stage, your investors and customers will test this relentlessly. Close this gap fast." : null
+      },
+      Skills: {
+        growth: avg < 3.5 ? "At growth stage, skill gaps in financial modeling and data analysis become critical. You can no longer operate on instinct alone." : null,
+        unsure: avg < 3 ? "Low skills combined with an undefined business model is a high-risk combination. Build the skills before settling on a model." : null
+      },
+      StressManagement: {
+        solo: avg < 3 ? "Solo founders carry everything alone. Stress management below 3.0 in this setup is a burnout timeline, not a risk." : null
+      }
+    };
+
+    const catNotes = notes[cat];
+    if (!catNotes) return null;
+
+    // check by team, stage, model
+    return catNotes[profile.team] || catNotes[profile.stage] || catNotes[profile.model] || null;
   }
 
   function getCatAnalysis(cat, avg) {
     const analyses = {
       Mindset: {
-        4: "Your mindset is a competitive asset. You operate from a growth frame, embrace risk, and don't fold under uncertainty. This is your foundation.",
-        3: "Your mindset is functional but conditional. You default to growth thinking when conditions are favorable, not when the pressure is on. That's exactly when it matters.",
-        2: "Fixed mindset patterns are leaking into your decision-making. You're likely avoiding the very situations that would accelerate your growth the fastest.",
-        1: "Your current mindset is a direct ceiling on your potential. No strategy, skill, or funding will fix a mindset that defaults to self-protection over learning."
+        4: "Your mindset is a competitive asset. You operate from a growth frame, embrace risk, and hold up under uncertainty. This is your foundation — protect it.",
+        3: "Your mindset is functional but conditional. You default to growth thinking when conditions are favorable — not when the pressure is on. That is exactly when it matters most.",
+        2: "Fixed mindset patterns are leaking into your decision-making. You are likely avoiding the very situations that would accelerate your growth fastest.",
+        1: "Your current mindset is a direct ceiling on every other dimension. No strategy, skill, or funding will fix a mindset that defaults to self-protection over learning."
       },
       Skills: {
-        4: "Operationally capable across the board. You can plan, execute, and adapt. The question is whether you're applying these skills to the right problems.",
-        3: "Functional skill set with clear blind spots. A founder at this level tends to underperform on financial literacy or data-driven decisions — fix those first.",
-        2: "Significant skill gaps that will become acute as complexity grows. You can't delegate your way out of skills you don't have. You need to close these systematically.",
+        4: "Operationally capable across the board. You can plan, execute, and adapt. The question is whether you are applying these skills to the right problems.",
+        3: "Functional skill set with clear blind spots. At this level, founders most commonly underperform on financial literacy and data-driven decisions. Fix those first.",
+        2: "Significant skill gaps that will become acute as complexity grows. You cannot delegate your way out of skills you do not have.",
         1: "Core execution skills are underdeveloped. Before building a startup, build yourself. This level of skill gap produces avoidable operational failure."
       },
       Leadership: {
         4: "You can recruit, align, and retain people. This is rare and it compounds — good leaders attract better people, which creates better outcomes.",
-        3: "Solid on vision communication and goal-setting. Weak on conflict resolution and talent development. Teams built around leaders at this level often plateau.",
-        2: "Leadership gaps at this level create a single point of failure. You're the bottleneck. Teams will underperform because you can't multiply your effort through others.",
-        1: "Leadership is not natural yet. This is learnable, but it takes intentional work. Solopreneurship may be a better path until this dimension is stronger."
+        3: "Solid on vision and goal-setting. Weak on conflict resolution and talent development. Teams built around leaders at this level often plateau.",
+        2: "Leadership gaps at this level create a single point of failure. You are the bottleneck. Teams will underperform because you cannot multiply your effort through others.",
+        1: "Leadership is not yet developed. This is learnable, but requires intentional work. Solopreneurship may be a better path until this dimension is stronger."
       },
       Personality: {
-        4: "High-pressure comfort, strong self-direction, resilience after failure. These traits separate founders who survive the hard years from those who don't.",
+        4: "High-pressure comfort, strong self-direction, resilience after failure. These traits separate founders who survive the hard years from those who do not.",
         3: "Strong in some traits, inconsistent in others. Watch for over-reliance on optimism without the execution discipline to match it.",
-        2: "Personality traits at this range will create friction with co-founders, investors, and teams. This is not about character — it's about specific, trainable behaviors.",
+        2: "Personality traits at this range will create friction with co-founders, investors, and teams. These are specific, trainable behaviors — not fixed character traits.",
         1: "The entrepreneurial journey will consistently surface the gaps here. This requires honest self-work, not just skill training."
       },
       StressManagement: {
-        4: "You operate well under pressure without burning out. This is underrated — most founders destroy their effectiveness within 18 months of launch due to stress mismanagement.",
+        4: "You operate well under pressure without burning out. Most founders destroy their effectiveness within 18 months of launch due to stress mismanagement. You are ahead on this.",
         3: "Adequate coping mechanisms but inconsistent application. You manage stress reactively instead of proactively. That will catch up with you at scale.",
-        2: "Your current stress management strategy is not sustainable at the intensity of early-stage building. Burnout is a predictable outcome, not a risk to hedge.",
-        1: "You are operating above your current stress tolerance. Without immediate changes, your performance and judgment will deteriorate under pressure."
+        2: "Your current stress management approach is not sustainable at early-stage intensity. Burnout is a predictable outcome at this level, not a risk to hedge.",
+        1: "You are operating above your current stress tolerance. Without immediate changes, your judgment and performance will deteriorate under pressure."
+      },
+      DomainKnowledge: {
+        4: "You understand the problem, the customer, the competitive dynamics, and the market structure deeply. This is genuine edge — most founders are solving problems they do not fully understand.",
+        3: "Solid baseline knowledge with meaningful gaps. You know the landscape but probably lack depth on customer behavior or how money flows in your market. Those gaps will surface in sales and investor conversations.",
+        2: "Surface-level market understanding. You likely know the category but not the mechanics. This is dangerous at any stage because it means your assumptions are probably untested.",
+        1: "Insufficient domain understanding to build a defensible business in this space. The risk of building something customers do not want or entering a market wrong is high."
       }
     };
     const tier = avg >= 4 ? 4 : avg >= 3 ? 3 : avg >= 2 ? 2 : 1;
     return analyses[cat][tier];
   }
 
-  function buildRecos(avgs) {
+  function buildRecos(avgs, profile) {
     const container = document.getElementById('recoCards');
     container.innerHTML = '';
 
     const recos = {
       Mindset: {
         icon: '🧠',
-        4: ["Continue exposing yourself to anti-consensus thinking — read contrarian frameworks, not just confirmation.", "Document your failures systematically. Turn every setback into an explicit lesson with a timestamped note.", "Find one person smarter than you in a domain you're weak in, and build a relationship."],
-        3: ["Start a daily reflection practice specifically focused on where you defaulted to a fixed mindset today.", "Deliberately seek situations where you are the least experienced person in the room.", "Study failure post-mortems of companies you admire. Normalize failure as data."],
-        2: ["Identify the three most common stories you tell yourself when you fail. Write them down. Challenge each one.", "Commit to one uncomfortable new skill for 30 days — not useful skills, uncomfortable ones.", "Read Carol Dweck's Mindset. Not as inspiration. As a diagnostic tool."],
-        1: ["Stop launching anything new until you do a serious mindset audit with a coach or mentor.", "The root issue is likely fear-based, not skill-based. Address it at that level.", "Journaling, therapy, or structured self-inquiry are not soft options here — they're prerequisites."]
+        4: ["Continue exposing yourself to anti-consensus thinking. Read contrarian frameworks, not confirmation.", "Document your failures systematically. Turn every setback into an explicit lesson with a timestamped note.", "Find one person significantly smarter than you in a domain you are weak in, and build a real relationship."],
+        3: ["Start a daily reflection practice focused specifically on where you defaulted to a fixed mindset today.", "Deliberately seek situations where you are the least experienced person in the room.", "Study failure post-mortems of companies you respect. Normalize failure as data, not verdict."],
+        2: ["Identify the three most common stories you tell yourself when you fail. Write them down and challenge each one.", "Commit to one uncomfortable new skill for 30 days — specifically an uncomfortable one, not a useful one.", "Read Carol Dweck's Mindset as a diagnostic tool, not inspiration."],
+        1: ["Stop launching anything new until you complete a serious mindset audit with a coach or mentor.", "The root issue is likely fear-based, not skill-based. Address it at that level.", "Journaling, therapy, or structured self-inquiry are not soft options here. They are prerequisites."]
       },
       Skills: {
         icon: '⚡',
-        4: ["Stay sharp on financial modeling — even if you have a CFO, understand the numbers at the unit economics level.", "Build a second-order skill: teach what you know. It accelerates your own mastery.", "Audit your skill stack against where the industry is heading, not where it is now."],
-        3: ["Identify your single highest-leverage skill gap. Spend 90 days closing it with structured learning.", "Get basic financial modeling fluency if you don't have it. Founders who can't read a P&L are flying blind.", "Join one industry community where skill exchange happens informally."],
-        2: ["You need a learning system, not just good intentions. Block time weekly for structured skill development.", "Start with communication and negotiation — they unlock the value of every other skill you have.", "Find a skills mentor, not a motivation mentor. Someone who will teach you specifics."],
-        1: ["Take a structured business fundamentals course. Not YouTube content — something with accountability.", "Build one foundational skill completely before moving to the next. Breadth at this stage is a trap.", "Seek apprenticeship or a co-founder who compensates for your skill gaps."]
+        4: ["Stay sharp on financial modeling. Even with a CFO, understand unit economics at the operator level.", "Build a second-order skill: teach what you know. It accelerates your own mastery.", "Audit your skill stack against where the industry is heading, not where it is now."],
+        3: ["Identify your single highest-leverage skill gap and run a 90-day structured sprint to close it.", "Get financial modeling fluency if you do not have it. Founders who cannot read a P&L are flying blind.", "Join one industry community where real skill exchange happens, not just networking."],
+        2: ["You need a learning system, not good intentions. Block dedicated time weekly for structured skill development.", "Start with communication and negotiation. They unlock the value of every other skill you have.", "Find a skills mentor, not a motivation mentor. Someone who will teach you specifics."],
+        1: ["Take a structured business fundamentals course with accountability, not YouTube content.", "Build one foundational skill completely before adding another. Breadth at this stage is a trap.", "Seek apprenticeship or a co-founder who directly compensates for your skill gaps."]
       },
       Leadership: {
         icon: '🎯',
-        4: ["Challenge yourself with a stretch team situation: lead people significantly more experienced than you.", "Develop your second-in-command deliberately. Your leadership ceiling is your team's ceiling.", "Study how great leaders have failed. Most leadership books teach the upside. Learn the failure modes."],
-        3: ["Practice structured feedback delivery. Most 'good' leaders are actually conflict-avoidant.", "Delegate one important task completely this week — including the decision-making authority.", "Learn to read team energy. The best leaders detect disengagement before it becomes turnover."],
-        2: ["Focus exclusively on communication clarity. Vague direction is the #1 leadership failure at this level.", "Seek one formal leadership training program — not a webinar, a real cohort.", "Build the habit of asking for feedback from your team. You can't improve what you don't measure."],
-        1: ["Do not hire until you can lead one person effectively. Hiring before leadership readiness multiplies problems.", "Study leadership case studies from founders who failed specifically because of team dynamics.", "Consider finding a co-founder whose primary strength is exactly this dimension."]
+        4: ["Challenge yourself with a stretch team situation: lead people significantly more experienced than you.", "Develop your second-in-command deliberately. Your leadership ceiling is your team's ceiling.", "Study how respected leaders have failed specifically. Leadership books mostly teach the upside. Learn the failure modes."],
+        3: ["Practice structured feedback delivery. Most leaders at this level are conflict-avoidant, not bad leaders.", "Delegate one important task this week, including the decision-making authority, not just the work.", "Learn to read team energy. The best leaders detect disengagement before it becomes turnover."],
+        2: ["Focus on communication clarity above everything else. Vague direction is the primary leadership failure at this level.", "Seek one formal leadership training program — a real cohort, not a webinar.", "Build the habit of requesting feedback from your team. You cannot improve what you do not measure."],
+        1: ["Do not hire until you can lead one person effectively. Premature hiring multiplies problems.", "Study leadership failures from founders who destroyed their companies through people dynamics.", "Consider a co-founder whose primary strength is exactly this dimension."]
       },
       Personality: {
         icon: '🔮',
-        4: ["Use your pressure tolerance strategically — create environments that are intense enough to sharpen you.", "Your biggest risk is complacency. Continuously raise your own bar.", "Develop emotional intelligence to complement your resilience. High performers who lack EQ hit a ceiling in partnerships and leadership."],
-        3: ["Examine where your adaptability breaks down — specific types of change or specific people? That's where to focus.", "Develop a pre-mortem habit: before every major decision, spend 10 minutes imagining it fails and why.", "Your public speaking and idea-expression likely needs more deliberate practice than you're giving it."],
-        2: ["High-pressure environments will expose you. You need controlled exposure to pressure, not avoidance.", "Resilience is trainable through deliberate hardship. Physical challenges are a legitimate proxy.", "Work on your emotional regulation — not suppression. You need to process, not override."],
-        1: ["These traits are not fixed. But they require genuine work, not motivational reading.", "Build one keystone habit that forces self-directedness — a project where no one is checking on you.", "Therapy or structured coaching is not weakness here. It's the most direct path to change."]
+        4: ["Use your pressure tolerance strategically. Create environments intense enough to continue sharpening you.", "Your biggest risk is complacency. Continuously raise your own bar without external pressure.", "Develop emotional intelligence alongside resilience. High performers without EQ hit a ceiling in partnerships."],
+        3: ["Examine where your adaptability breaks down specifically — certain types of change or certain people. That is where to focus.", "Develop a pre-mortem habit: before every major decision, spend 10 minutes assuming it fails and working backwards.", "Your public speaking and idea-expression likely needs more deliberate practice than you are giving it."],
+        2: ["High-pressure environments will expose you. You need controlled exposure to pressure, not avoidance of it.", "Resilience is trainable through deliberate hardship. Physical challenges are a legitimate proxy.", "Work on emotional regulation, not suppression. You need to process, not override."],
+        1: ["These traits are not fixed. But they require genuine work, not motivational reading.", "Build one keystone habit that forces self-directedness: a project where no one checks on you.", "Therapy or structured coaching is the most direct path to change here. Not weakness — efficiency."]
       },
       StressManagement: {
         icon: '🛡️',
-        4: ["Your stress management is strong, but test it at a higher intensity than you're currently operating.", "Build systems, not just habits. Document your recovery protocols so they persist under pressure.", "Help someone else with theirs. Teaching your framework will refine it."],
-        3: ["Your system is reactive. Build a weekly check-in ritual to assess your stress load before it accumulates.", "Identify the physical early warning signs when your stress is rising. Act on the signal, not the overflow.", "Your work-life balance may be functional during normal periods but breaks down under crunch. Stress-test it now."],
-        2: ["Your current approach is not sustainable beyond 12 months of intense work. This is an operational risk, not a wellness preference.", "Commit to at least one non-negotiable recovery activity. Daily walks, workout, or equivalent. Not optional.", "Talk to founders who burned out. Take the data seriously."],
-        1: ["This is urgent. Operating at this stress tolerance level will compromise your judgment, your relationships, and your health.", "Seek professional support — a therapist, coach, or doctor. Not a productivity app.", "Simplify your workload radically before adding anything new."]
+        4: ["Your stress management is strong. Now test it at a higher intensity than you are currently operating.", "Build systems, not just habits. Document your recovery protocols so they persist under maximum pressure.", "Help someone else build theirs. Teaching your framework will refine it."],
+        3: ["Your system is reactive. Build a weekly ritual to assess your stress load before it accumulates.", "Identify physical early warning signs when your stress is rising. Act on the signal, not the overflow.", "Your work-life balance may hold during normal periods but break under crunch. Stress-test it deliberately now."],
+        2: ["Your current approach is not sustainable beyond 12 months of intense work. This is operational risk, not wellness preference.", "Commit to at least one non-negotiable recovery activity: daily walk, workout, or equivalent. Not optional.", "Talk to founders who burned out. Take the data seriously."],
+        1: ["This is urgent. Operating at this tolerance level will compromise your judgment, relationships, and health.", "Seek professional support — therapist, coach, or doctor. Not a productivity app.", "Simplify your workload radically before taking on anything new."]
+      },
+      DomainKnowledge: {
+        icon: '🔍',
+        4: ["Your domain depth is a real competitive advantage. Protect it by staying close to customers even as you scale.", "Start synthesizing your domain knowledge into thought leadership. It builds credibility and attracts talent.", "Identify the fastest-moving assumptions in your market and build systematic ways to track them."],
+        3: ["Map the specific gaps in your market understanding. Customer behavior and revenue flow are the most common blind spots at this level.", "Run 10 customer discovery conversations in the next 30 days. Not surveys. Actual conversations.", "Get one advisor with deep operational experience in your specific market. Not a generalist. A domain specialist."],
+        2: ["You are building on assumptions, not knowledge. This is the most common cause of product-market fit failure.", "Do not build another feature or make another pitch until you have completed at least 20 customer discovery conversations.", "Study your top two competitors in detail: pricing, customers, positioning, failures. Know them better than they know themselves."],
+        1: ["Pause any building activity. Spend the next 30 days exclusively on market research and customer conversations.", "Find someone who has operated in this industry for 5+ years and pay for their time. The cost is negligible compared to building the wrong thing.", "You currently do not have sufficient basis to validate your business model. That is the most important thing to fix."]
+      }
+    };
+
+    // Context-specific additions
+    const contextRecos = {
+      DomainKnowledge: {
+        solo: { 2: "As a solo founder, domain knowledge is your primary defensive asset. With no co-founder to cover your blind spots, you need to be the most informed person in the room about your market." },
+        marketplace: { 3: "Marketplace businesses have a liquidity problem before they have a revenue problem. Make sure you understand the chicken-and-egg dynamics specific to your market segment." },
+        b2b: { 3: "B2B domain knowledge must include the buying committee, not just the end user. Map who signs the contract, who uses the product, and who blocks the deal." }
+      },
+      Leadership: {
+        cofounders: { 2: "Co-founder leadership gaps are the most urgent version of this problem. Set up a structured weekly alignment ritual before this creates irreparable damage." },
+        team: { 3: "With a team, your leadership gaps have multiplier effects. Every person on your team is being underserved by this gap." }
       }
     };
 
@@ -1248,14 +907,24 @@
       const avg = avgs[k];
       const tier = avg >= 4 ? 4 : avg >= 3 ? 3 : avg >= 2 ? 2 : 1;
       const meta = recos[k];
-      const catLabel = k === 'StressManagement' ? 'Stress Management' : k;
+      const catLabel = k === 'StressManagement' ? 'Stress Management' : k === 'DomainKnowledge' ? 'Domain Knowledge' : k;
+
+      let extraItems = [];
+      if (contextRecos[k]) {
+        const teamExtra = contextRecos[k][profile.team];
+        const modelExtra = contextRecos[k][profile.model];
+        if (teamExtra && teamExtra[tier]) extraItems.push(teamExtra[tier]);
+        if (modelExtra && modelExtra[tier]) extraItems.push(modelExtra[tier]);
+      }
+
+      const allItems = [...meta[tier], ...extraItems];
 
       const card = document.createElement('div');
       card.className = 'reco-card';
       card.innerHTML = `
         <div class="reco-title">${meta.icon} ${catLabel} — Action Items</div>
         <div class="reco-items">
-          ${meta[tier].map(item => `
+          ${allItems.map(item => `
             <div class="reco-item">
               <div class="reco-dot"></div>
               <div>${item}</div>
@@ -1267,27 +936,35 @@
     });
   }
 
-  function getOverallReco(level) {
-    const map = {
-      "Excellent Potential": "You have built a strong entrepreneurial profile across all five dimensions. The risk at this level is not capability — it's direction. Founders with your profile often stall not because they can't execute, but because they pick the wrong problem to execute on. Get obsessive about market validation before you fall in love with your solution. Your next constraint is context, not character.",
-      "Good Potential": "Your profile shows a capable founder who has not yet stress-tested their skills in the right environment. The good news: your gaps are specific and closable. Focus on the two or three categories that scored below 3.5 and treat them as a 90-day development sprint. Mentorship is the highest-leverage investment you can make right now. You are closer than you think.",
-      "Moderate Potential": "Honest assessment: you have a real foundation but significant work ahead. The founders who succeed from this profile are not the ones who stay inspired — they are the ones who build ruthlessly against their weak areas. Pick the worst-scoring dimension, and make it your singular focus for the next 90 days. Then come back and retake this. Do not launch a business until at least three of five dimensions are above 3.0.",
-      "Needs Development": "This score is not a verdict on your potential — it is a baseline. Every successful founder was a poor founder at the beginning. The difference is honest self-knowledge and disciplined iteration. You now have the map. Start with mindset and stress management — these are the prerequisites for every other dimension. Find a mentor, find a program, find accountability. The gap is wide but it is a gap of work, not of worth."
+  function getOverallReco(level, profile) {
+    const stageContext = {
+      aspiring: "You have not committed yet, which means you still have the most valuable asset an early founder can have: optionality. Use it to close your biggest gaps before you lock in on a direction.",
+      idea: "At idea stage, your highest-leverage action is not building — it is learning. The gaps in your profile are signals of where your idea is most likely to break down in execution.",
+      preseed: "At pre-seed, investors are betting on you, not the idea. Every gap in this profile is a question they will ask. Know your answers and show a plan for the ones you cannot yet defend.",
+      seed: "At seed, the market is giving you real feedback. Your job is to process that feedback faster than your runway expires. The gaps here are friction in that loop.",
+      growth: "At growth stage, the gaps that were tolerable before become structural. You cannot outwork systemic weaknesses at this scale. You need to close them or hire around them with intentionality."
     };
-    return map[level];
+    const base = {
+      "Excellent Potential": "You have built a strong entrepreneurial profile across all six dimensions. The risk at this level is not capability — it is direction. Founders with your profile often stall not because they cannot execute, but because they pick the wrong problem to execute on. Get obsessive about market validation before you fall in love with your solution.",
+      "Good Potential": "Your profile shows a capable founder who has not yet stress-tested their skills in the right environment. The good news: your gaps are specific and closable. Focus on the two or three dimensions that scored below 3.5 and treat them as a 90-day sprint. Mentorship is the highest-leverage investment you can make right now.",
+      "Moderate Potential": "You have a real foundation but significant work ahead. The founders who succeed from this profile are not the most inspired — they are the ones who build ruthlessly against their weak areas. Pick the worst-scoring dimension and make it your singular focus for the next 90 days. Do not launch anything new until at least four of six dimensions are above 3.0.",
+      "Needs Development": "This score is not a verdict on your potential — it is a baseline. Every successful founder started as a poor founder. The difference is honest self-knowledge and disciplined iteration. You now have the map. Start with Mindset and Domain Knowledge — these are the prerequisites for every other dimension. Find a mentor, find a program, find accountability."
+    };
+    const stageAdd = stageContext[profile.stage] || '';
+    return base[level] + (stageAdd ? ' ' + stageAdd : '');
   }
 
   function resetAssessment() {
     document.getElementById('resultSection').style.display = 'none';
-    document.getElementById('formSection').style.display = 'block';
-    document.getElementById('assessmentForm').style.display = 'block';
+    document.getElementById('onboardingSection').style.display = 'block';
+    document.getElementById('assessmentForm').style.display = 'none';
     document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
-    document.querySelectorAll('.question-card').forEach(c => c.classList.remove('answered'));
+    ['mindset','skills','leadership','personality','stress','domain'].forEach(s => {
+      document.getElementById(`${s}-questions`).innerHTML = '';
+    });
     updateProgress();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
-  buildQuestions();
 </script>
 </body>
 </html>
