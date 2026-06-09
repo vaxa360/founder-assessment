@@ -158,6 +158,11 @@
       backdrop-filter: blur(16px); margin-bottom: 32px; position: relative; overflow: hidden;
     }
     .result-hero::before { content: ''; position: absolute; top: -60px; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(43,127,255,0.15) 0%, transparent 70%); pointer-events: none; }
+    .result-greeting {
+      font-family: "Syne", sans-serif; font-size: 13px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--subtle);
+      margin-bottom: 10px;
+    }
     .result-level-badge { display: inline-block; font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky); background: rgba(43,127,255,0.12); border: 1px solid var(--border); border-radius: 100px; padding: 6px 20px; margin-bottom: 20px; }
     .result-score-ring { position: relative; width: 140px; height: 140px; margin: 0 auto 24px; }
     .result-score-ring svg { transform: rotate(-90deg); }
@@ -215,8 +220,19 @@
     .overall-reco::before { content: ''; position: absolute; top: -40px; right: -40px; width: 160px; height: 160px; background: radial-gradient(circle, rgba(43,127,255,0.15) 0%, transparent 70%); }
     .overall-reco-label { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sky); margin-bottom: 12px; }
     .overall-reco-text { font-size: 15px; color: var(--text); line-height: 1.8; position: relative; }
-    .retry-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 32px; padding: 14px 32px; background: transparent; color: var(--sky); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; border: 1px solid var(--border); border-radius: 100px; cursor: pointer; transition: all 0.3s ease; }
+    .retry-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: transparent; color: var(--sky); font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; border: 1px solid var(--border); border-radius: 100px; cursor: pointer; transition: all 0.3s ease; }
     .retry-btn:hover { border-color: var(--vivid); color: var(--white); background: rgba(43,127,255,0.1); }
+    .btn-download {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 40px;
+      background: linear-gradient(135deg, #0a1a4a, #1a56db);
+      color: var(--white); font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700;
+      letter-spacing: 0.06em; border: 1px solid rgba(90,173,255,0.35); border-radius: 100px;
+      cursor: pointer; transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(26,86,219,0.3);
+    }
+    .btn-download:hover { background: linear-gradient(135deg, #1a56db, #2b7fff); box-shadow: 0 8px 32px rgba(43,127,255,0.45); transform: translateY(-2px); }
+    .btn-download:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
     /* ANIMATIONS */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -262,7 +278,16 @@
   <div id="onboardingSection">
     <div class="onboarding-card">
       <div class="onboarding-title">Before We Begin</div>
-      <div class="onboarding-sub">Four quick questions. Your answers make the results specific to where you actually are — not where a generic founder is. This takes 30 seconds.</div>
+      <div class="onboarding-sub">Five quick questions. Your answers make the results specific to where you actually are — not where a generic founder is. This takes 30 seconds.</div>
+
+      <div class="onboarding-field">
+        <span class="field-label">Your Name</span>
+        <input type="text" id="founderName" placeholder="e.g. Budi Santoso" autocomplete="off"
+          style="width:100%;padding:12px 16px;background:rgba(5,14,42,0.6);border:1px solid rgba(90,173,255,0.2);border-radius:12px;color:#f0f6ff;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s ease;"
+          onfocus="this.style.borderColor='rgba(43,127,255,0.6)'"
+          onblur="this.style.borderColor='rgba(90,173,255,0.2)'"
+        >
+      </div>
 
       <div class="onboarding-field">
         <span class="field-label">Your Current Stage</span>
@@ -370,6 +395,7 @@
   <!-- RESULTS -->
   <div id="resultSection">
     <div class="result-hero">
+      <div class="result-greeting" id="resultGreeting"></div>
       <div class="result-level-badge" id="resultBadge">Your Result</div>
       <div class="result-score-ring">
         <svg width="140" height="140" viewBox="0 0 140 140">
@@ -408,13 +434,17 @@
       <div class="overall-reco-text" id="overallRecoText"></div>
     </div>
 
-    <div style="text-align:center;">
+    <div style="text-align:center; display:flex; flex-direction:column; align-items:center; gap:14px; margin-top:32px;">
+      <button class="btn-download" id="downloadBtn" onclick="downloadPDF()">
+        <span>⬇ Download Results as PDF</span>
+      </button>
       <button class="retry-btn" onclick="resetAssessment()">↺ Retake Assessment</button>
     </div>
   </div>
 
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
   const questions = {
     mindset: [
@@ -495,14 +525,23 @@
   let userProfile = {};
 
   function startAssessment() {
+    const nameVal = document.getElementById('founderName').value.trim();
+    if (!nameVal) {
+      document.getElementById('onboardError').style.display = 'block';
+      document.getElementById('onboardError').textContent = 'Please enter your name before continuing.';
+      document.getElementById('founderName').focus();
+      return;
+    }
     const fields = ['stage','model','team','traction'];
     for (const f of fields) {
       if (!document.querySelector(`input[name="${f}"]:checked`)) {
         document.getElementById('onboardError').style.display = 'block';
+        document.getElementById('onboardError').textContent = 'Please answer all five profile questions to continue.';
         return;
       }
     }
     userProfile = {
+      name: nameVal,
       stage: document.querySelector('input[name="stage"]:checked').value,
       model: document.querySelector('input[name="model"]:checked').value,
       team: document.querySelector('input[name="team"]:checked').value,
@@ -602,6 +641,10 @@
     else if (total >= 120) level = "Moderate Potential";
     else level = "Needs Development";
 
+    storePDFData(cats, avgs, total, level, userProfile.name);
+    // Personalised greeting
+    const greetEl = document.getElementById('resultGreeting');
+    if (greetEl) greetEl.textContent = `Results for ${userProfile.name}`;
     document.getElementById('resultBadge').textContent = `Score: ${total} / 300`;
 
     const lvlParts = level.split(' ');
@@ -954,11 +997,290 @@
     return base[level] + (stageAdd ? ' ' + stageAdd : '');
   }
 
+  // ── PDF EXPORT ──────────────────────────────────────────────────────────────
+  let _pdfData = {};
+
+  function storePDFData(cats, avgs, total, level, name) {
+    _pdfData = { cats, avgs, total, level, name };
+  }
+
+  function downloadPDF() {
+    const btn = document.getElementById('downloadBtn');
+    btn.disabled = true;
+    btn.querySelector('span').textContent = '⏳ Generating PDF...';
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+    const W = 210;
+    const margin = 18;
+    const contentW = W - margin * 2;
+    let y = 0;
+
+    // ── Colors
+    const navy   = [5, 14, 42];
+    const royal  = [13, 45, 143];
+    const cobalt = [26, 86, 219];
+    const vivid  = [43, 127, 255];
+    const sky    = [90, 173, 255];
+    const mist   = [168, 212, 255];
+    const white  = [240, 246, 255];
+    const subtle = [106, 144, 184];
+    const text   = [200, 220, 245];
+
+    function setFont(size, weight, color) {
+      doc.setFontSize(size);
+      doc.setFont('helvetica', weight || 'normal');
+      doc.setTextColor(...(color || text));
+    }
+
+    function fillRect(x, fy, w, h, color, radius) {
+      doc.setFillColor(...color);
+      if (radius) doc.roundedRect(x, fy, w, h, radius, radius, 'F');
+      else doc.rect(x, fy, w, h, 'F');
+    }
+
+    function addPage() {
+      doc.addPage();
+      // dark bg
+      fillRect(0, 0, W, 297, navy);
+      y = 16;
+    }
+
+    // ── PAGE 1: COVER ──────────────────────────────────────────────────────────
+    fillRect(0, 0, W, 297, navy);
+
+    // top accent bar
+    doc.setFillColor(...cobalt);
+    doc.rect(0, 0, W, 1.5, 'F');
+
+    y = 32;
+    // VAXA badge
+    fillRect(margin, y, 42, 7, [26, 46, 100], 3.5);
+    setFont(7, 'bold', sky);
+    doc.text('VAXA EPA v2.0', margin + 4, y + 4.8);
+    y += 16;
+
+    // Title
+    setFont(26, 'bold', white);
+    doc.text('Entrepreneurial', margin, y);
+    y += 11;
+    setFont(26, 'bold', vivid);
+    doc.text('Potential Assessment', margin, y);
+    y += 9;
+    setFont(9, 'normal', subtle);
+    doc.text('6 Dimensions  •  60 Questions  •  Context-Aware Results', margin, y);
+    y += 20;
+
+    // Score ring (simulated as circle)
+    const cx = W / 2, cy2 = y + 22;
+    doc.setDrawColor(...sky);
+    doc.setLineWidth(0.4);
+    doc.circle(cx, cy2, 18, 'S');
+    const pct = _pdfData.total / 300;
+    // filled arc via small rectangles approximation — use text instead
+    doc.setFillColor(...vivid);
+    doc.circle(cx, cy2, 18, 'S');
+    setFont(18, 'bold', white);
+    doc.text(String(_pdfData.total), cx, cy2 + 3, { align: 'center' });
+    setFont(7, 'normal', subtle);
+    doc.text('/ 300', cx, cy2 + 9, { align: 'center' });
+    y = cy2 + 26;
+
+    // Name
+    setFont(11, 'bold', mist);
+    doc.text(_pdfData.name || '', cx, y, { align: 'center' });
+    y += 8;
+
+    // Level badge
+    const lvl = _pdfData.level || 'N/A';
+    setFont(14, 'bold', sky);
+    doc.text(lvl, cx, y, { align: 'center' });
+    y += 10;
+
+    // Profile chips
+    const stageLabels2 = { idea:'Idea Stage', preseed:'Pre-Seed', seed:'Seed/Traction', growth:'Growth Stage', aspiring:'Aspiring' };
+    const modelLabels2 = { b2b:'B2B', b2c:'B2C', b2b2c:'B2B2C', marketplace:'Marketplace', saas:'SaaS', unsure:'Model TBD' };
+    const teamLabels2  = { solo:'Solo Founder', cofounders:'With Co-Founder(s)', team:'Has a Team' };
+    const tracLabels2  = { none:'No Traction', pilot:'Pilot Users', paying:'Paying Customers', revenue:'Meaningful Revenue' };
+    const chips = [stageLabels2[userProfile.stage], modelLabels2[userProfile.model], teamLabels2[userProfile.team], tracLabels2[userProfile.traction]].filter(Boolean);
+    let chipX = margin;
+    chips.forEach(chip => {
+      const cw = doc.getTextWidth(chip) + 8;
+      fillRect(chipX, y, cw, 6.5, [20, 40, 100], 3);
+      setFont(7, 'normal', mist);
+      doc.text(chip, chipX + 4, y + 4.5);
+      chipX += cw + 4;
+    });
+    y += 18;
+
+    // Summary box
+    fillRect(margin, y, contentW, 28, [10, 22, 70], 4);
+    const summaryText = document.getElementById('resultSummary').textContent;
+    setFont(8.5, 'normal', text);
+    const summaryLines = doc.splitTextToSize(summaryText, contentW - 12);
+    summaryLines.slice(0,4).forEach((line, i) => {
+      doc.text(line, margin + 6, y + 8 + i * 5.5);
+    });
+    y += 36;
+
+    // Dimension scores table
+    setFont(8, 'bold', sky);
+    doc.text('DIMENSION SCORES', margin, y);
+    doc.setDrawColor(...cobalt);
+    doc.setLineWidth(0.3);
+    doc.line(margin, y + 2, margin + contentW, y + 2);
+    y += 7;
+
+    const catKeys = ['Mindset','Skills','Leadership','Personality','StressManagement','DomainKnowledge'];
+    const catIcons = { Mindset:'Mindset', Skills:'Skills', Leadership:'Leadership', Personality:'Personality', StressManagement:'Stress Mgmt', DomainKnowledge:'Domain Knowledge' };
+    const avgs = _pdfData.avgs;
+
+    catKeys.forEach((k, i) => {
+      const avg = avgs[k];
+      const score = _pdfData.cats[k];
+      const barW = contentW - 50;
+      const filled = (avg / 5) * barW;
+      const rowY = y + i * 11;
+
+      // label
+      setFont(8, 'normal', text);
+      doc.text(catIcons[k], margin, rowY + 3.5);
+      // score text
+      setFont(8, 'bold', white);
+      doc.text(`${avg.toFixed(1)}`, margin + 50, rowY + 3.5);
+      doc.text(`(${score}/50)`, margin + 58, rowY + 3.5);
+      // bar bg
+      fillRect(margin + 75, rowY, barW, 4, [20, 40, 90], 2);
+      // bar fill
+      const barColor = avg >= 4 ? vivid : avg >= 3 ? cobalt : avg >= 2 ? [200, 160, 40] : [200, 80, 100];
+      fillRect(margin + 75, rowY, filled, 4, barColor, 2);
+    });
+    y += catKeys.length * 11 + 6;
+
+    // footer
+    setFont(7, 'normal', [60, 80, 110]);
+    doc.text('VAXA Mentoring Platform  •  Entrepreneurial Potential Assessment v2.0', W / 2, 290, { align: 'center' });
+
+    // ── PAGE 2: ANALYSIS ───────────────────────────────────────────────────────
+    addPage();
+    doc.setDrawColor(...cobalt);
+    doc.setLineWidth(0.3);
+
+    setFont(11, 'bold', sky);
+    doc.text('DIMENSION ANALYSIS', margin, y);
+    doc.line(margin, y + 2, margin + contentW, y + 2);
+    y += 10;
+
+    const analyses = {
+      Mindset: { 4:"Your mindset is a competitive asset. You operate from a growth frame, embrace risk, and hold up under uncertainty. This is your foundation.", 3:"Your mindset is functional but conditional. You default to growth thinking when conditions are favorable — not when the pressure is on.", 2:"Fixed mindset patterns are leaking into your decision-making. You are likely avoiding the very situations that would accelerate your growth fastest.", 1:"Your current mindset is a direct ceiling on every other dimension. No strategy, skill, or funding will fix a mindset that defaults to self-protection." },
+      Skills: { 4:"Operationally capable across the board. You can plan, execute, and adapt.", 3:"Functional skill set with clear blind spots. Financial literacy and data-driven decisions are the most common gaps at this level.", 2:"Significant skill gaps that will become acute as complexity grows. You cannot delegate your way out of skills you do not have.", 1:"Core execution skills are underdeveloped. Before building a startup, build yourself." },
+      Leadership: { 4:"You can recruit, align, and retain people. This is rare and it compounds.", 3:"Solid on vision and goal-setting. Weak on conflict resolution and talent development.", 2:"Leadership gaps create a single point of failure. You are the bottleneck.", 1:"Leadership is not yet developed. This is learnable but requires intentional work." },
+      Personality: { 4:"High-pressure comfort, strong self-direction, resilience after failure. These traits separate founders who survive the hard years.", 3:"Strong in some traits, inconsistent in others. Watch for over-reliance on optimism without execution discipline.", 2:"Personality traits at this range will create friction with co-founders, investors, and teams.", 1:"The entrepreneurial journey will consistently surface the gaps here. Requires honest self-work." },
+      StressManagement: { 4:"You operate well under pressure without burning out. Most founders destroy their effectiveness within 18 months due to stress mismanagement.", 3:"Adequate coping mechanisms but inconsistent application. You manage stress reactively instead of proactively.", 2:"Your current approach is not sustainable at early-stage intensity. Burnout is a predictable outcome.", 1:"You are operating above your current stress tolerance. Your judgment will deteriorate under sustained pressure." },
+      DomainKnowledge: { 4:"Deep understanding of the problem, customer, competitive dynamics, and market structure. This is genuine edge.", 3:"Solid baseline with meaningful gaps. You know the landscape but lack depth on customer behavior or revenue flow.", 2:"Surface-level market understanding. Your assumptions are likely untested. This is dangerous at any stage.", 1:"Insufficient domain understanding to build a defensible business. The risk of building the wrong thing is high." }
+    };
+
+    catKeys.forEach(k => {
+      if (y > 265) { addPage(); }
+      const avg = avgs[k];
+      const tier = avg >= 4 ? 4 : avg >= 3 ? 3 : avg >= 2 ? 2 : 1;
+      const statusColors = { 4: vivid, 3: cobalt, 2: [200,160,40], 1: [200,80,100] };
+      const statusLabels = { 4:'Excellent', 3:'Good', 2:'Needs Work', 1:'Critical Gap' };
+
+      // header row
+      fillRect(margin, y, contentW, 7, [12, 26, 75], 3);
+      setFont(8.5, 'bold', white);
+      doc.text(catIcons[k], margin + 4, y + 5);
+      setFont(7.5, 'bold', statusColors[tier]);
+      doc.text(statusLabels[tier] + '  ' + avg.toFixed(1) + '/5.0', margin + contentW - 4, y + 5, { align: 'right' });
+      y += 10;
+
+      const bodyLines = doc.splitTextToSize(analyses[k][tier], contentW - 4);
+      setFont(8, 'normal', text);
+      bodyLines.forEach(line => { doc.text(line, margin + 2, y); y += 5; });
+      y += 6;
+    });
+
+    // ── PAGE 3: ACTION PLAN ────────────────────────────────────────────────────
+    addPage();
+    setFont(11, 'bold', sky);
+    doc.text('ACTION PLAN', margin, y);
+    doc.setDrawColor(...cobalt);
+    doc.setLineWidth(0.3);
+    doc.line(margin, y + 2, margin + contentW, y + 2);
+    y += 10;
+
+    const recoData = {
+      Mindset: { 4:["Expose yourself to anti-consensus thinking. Read contrarian frameworks.", "Document failures systematically — turn each into a timestamped lesson.", "Find one person smarter than you in a weak domain and build a real relationship."], 3:["Daily reflection practice on where you defaulted to fixed mindset today.", "Seek situations where you are the least experienced person in the room.", "Study failure post-mortems of companies you respect."], 2:["Write down the three stories you tell yourself when you fail. Challenge each one.", "Commit to one uncomfortable new skill for 30 days.", "Read Carol Dweck's Mindset as a diagnostic tool, not inspiration."], 1:["Do a serious mindset audit with a coach before launching anything new.", "The root issue is fear-based. Address it at that level.", "Journaling, therapy, or structured self-inquiry are prerequisites here."] },
+      Skills: { 4:["Stay sharp on financial modeling at the unit economics level.", "Teach what you know — it accelerates your own mastery.", "Audit your skill stack against where the industry is heading."], 3:["Identify your highest-leverage skill gap and run a 90-day sprint to close it.", "Get financial modeling fluency — founders who cannot read a P&L are flying blind.", "Join one industry community where real skill exchange happens."], 2:["Block dedicated weekly time for structured skill development.", "Start with communication and negotiation — they unlock everything else.", "Find a skills mentor who will teach you specifics, not motivate you."], 1:["Take a structured business fundamentals course with accountability.", "Build one foundational skill completely before adding another.", "Seek a co-founder who compensates for your skill gaps."] },
+      Leadership: { 4:["Lead people significantly more experienced than you.", "Develop your second-in-command deliberately.", "Study how respected leaders have failed specifically."], 3:["Practice structured feedback delivery — most leaders at this level are conflict-avoidant.", "Delegate one important task this week including decision-making authority.", "Learn to read team energy before it becomes turnover."], 2:["Focus on communication clarity above everything else.", "Seek one formal leadership training cohort.", "Build the habit of requesting feedback from your team."], 1:["Do not hire until you can lead one person effectively.", "Study founders who destroyed companies through people dynamics.", "Consider a co-founder whose primary strength is leadership."] },
+      Personality: { 4:["Create environments intense enough to continue sharpening you.", "Continuously raise your own bar without external pressure.", "Develop EQ alongside resilience — high performers without EQ hit a ceiling."], 3:["Examine where your adaptability breaks down specifically.", "Build a pre-mortem habit before every major decision.", "Public speaking needs more deliberate practice than you are giving it."], 2:["Seek controlled exposure to pressure, not avoidance.", "Resilience is trainable through deliberate hardship.", "Work on emotional regulation, not suppression."], 1:["Build one keystone habit that forces self-directedness.", "Therapy or structured coaching is the most direct path to change.", "These traits are not fixed. They require genuine work."] },
+      StressManagement: { 4:["Test your stress management at a higher intensity than you currently operate.", "Document your recovery protocols so they persist under maximum pressure.", "Help someone else build theirs — teaching refines your system."], 3:["Build a weekly ritual to assess your stress load before it accumulates.", "Identify physical early warning signs and act on the signal.", "Stress-test your work-life balance before the next crunch period."], 2:["Commit to one non-negotiable recovery activity daily.", "Talk to founders who burned out. Take the data seriously.", "This is operational risk, not wellness preference."], 1:["Seek professional support — therapist, coach, or doctor. Not a productivity app.", "Simplify your workload radically before taking on anything new.", "This is urgent. It will compromise your judgment, relationships, and health."] },
+      DomainKnowledge: { 4:["Stay close to customers even as you scale.", "Synthesize your domain knowledge into thought leadership.", "Build systematic ways to track your fastest-moving market assumptions."], 3:["Run 10 customer discovery conversations in the next 30 days.", "Map specific gaps in your market understanding.", "Get one advisor with deep operational experience in your exact market."], 2:["Do not build or pitch further until you complete 20 customer discovery conversations.", "Study your top two competitors in detail — pricing, customers, positioning, failures.", "You are building on assumptions, not knowledge."], 1:["Pause all building activity. Spend 30 days exclusively on market research.", "Pay for 2 hours of time from someone with 5+ years in this industry.", "You do not yet have sufficient basis to validate your business model."] }
+    };
+
+    catKeys.forEach(k => {
+      if (y > 262) { addPage(); }
+      const avg = avgs[k];
+      const tier = avg >= 4 ? 4 : avg >= 3 ? 3 : avg >= 2 ? 2 : 1;
+      fillRect(margin, y, contentW, 7, [12, 26, 75], 3);
+      setFont(8.5, 'bold', white);
+      doc.text(catIcons[k] + ' — Action Items', margin + 4, y + 5);
+      y += 10;
+      recoData[k][tier].forEach(item => {
+        if (y > 278) { addPage(); }
+        doc.setFillColor(...vivid);
+        doc.circle(margin + 2, y - 0.5, 1, 'F');
+        setFont(8, 'normal', text);
+        const lines = doc.splitTextToSize(item, contentW - 10);
+        lines.forEach(line => { doc.text(line, margin + 6, y); y += 5; });
+        y += 1;
+      });
+      y += 5;
+    });
+
+    // ── PAGE 4: VERDICT ────────────────────────────────────────────────────────
+    addPage();
+    setFont(11, 'bold', sky);
+    doc.text('OVERALL VERDICT', margin, y);
+    doc.setDrawColor(...cobalt);
+    doc.setLineWidth(0.3);
+    doc.line(margin, y + 2, margin + contentW, y + 2);
+    y += 12;
+
+    fillRect(margin, y, contentW, 52, [10, 24, 75], 5);
+    const verdictText = document.getElementById('overallRecoText').textContent;
+    setFont(8.5, 'normal', text);
+    const verdictLines = doc.splitTextToSize(verdictText, contentW - 12);
+    verdictLines.forEach(line => { doc.text(line, margin + 6, y + 8); y += 5.5; });
+    y += 20;
+
+    // Generated timestamp
+    setFont(7.5, 'normal', subtle);
+    const now = new Date();
+    doc.text(`${_pdfData.name || ''}  •  Generated: ${now.toLocaleDateString('en-GB', { day:'2-digit', month:'long', year:'numeric' })}  •  Score: ${_pdfData.total}/300  •  ${_pdfData.level}`, margin, y);
+    y += 8;
+
+    // footer all pages
+    const pageCount = doc.getNumberOfPages();
+    for (let p = 1; p <= pageCount; p++) {
+      doc.setPage(p);
+      setFont(7, 'normal', [50, 70, 100]);
+      doc.text(`VAXA EPA v2.0  •  Page ${p} of ${pageCount}`, W / 2, 292, { align: 'center' });
+    }
+
+    doc.save('VAXA_EPA_Results.pdf');
+    btn.disabled = false;
+    btn.querySelector('span').textContent = '⬇ Download Results as PDF';
+  }
+
   function resetAssessment() {
     document.getElementById('resultSection').style.display = 'none';
     document.getElementById('onboardingSection').style.display = 'block';
     document.getElementById('assessmentForm').style.display = 'none';
     document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+    document.getElementById('founderName').value = '';
     ['mindset','skills','leadership','personality','stress','domain'].forEach(s => {
       document.getElementById(`${s}-questions`).innerHTML = '';
     });
