@@ -62,7 +62,6 @@
     h1.title { font-family: 'Syne', sans-serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; line-height: 1.1; color: var(--white); letter-spacing: -0.02em; margin-bottom: 16px; }
     h1.title em { font-style: normal; background: linear-gradient(135deg, var(--sky), var(--vivid)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .header-sub { font-size: 16px; font-weight: 300; color: var(--subtle); max-width: 500px; margin: 0 auto 40px; line-height: 1.7; }
-    .version-tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; color: var(--vivid); background: rgba(43,127,255,0.1); border: 1px solid rgba(43,127,255,0.25); border-radius: 6px; padding: 3px 10px; margin-bottom: 16px; }
     .progress-bar-wrap { background: rgba(90,173,255,0.08); border: 1px solid var(--border); border-radius: 100px; height: 6px; overflow: hidden; max-width: 400px; margin: 0 auto; }
     .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--royal), var(--vivid), var(--sky)); border-radius: 100px; width: 0%; transition: width 0.5s ease; }
     .progress-label { font-size: 12px; color: var(--subtle); margin-top: 10px; letter-spacing: 0.04em; }
@@ -240,15 +239,109 @@
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
 
-    /* RESPONSIVE */
+    /* ── RESPONSIVE ─────────────────────────────────────────────── */
+
+    /* Tablet: 601px – 860px */
+    @media (max-width: 860px) {
+      .wrapper { padding: 0 20px 60px; }
+      h1.title { font-size: 2.4rem; }
+      .categories-grid { grid-template-columns: repeat(2, 1fr); }
+      .result-hero { padding: 48px 24px; }
+      .radar-wrap { padding: 24px 16px; }
+      .reco-card { padding: 24px 24px; }
+      .overall-reco { padding: 28px 24px; }
+      .onboarding-card { padding: 32px 28px; }
+    }
+
+    /* Mobile: ≤ 600px */
     @media (max-width: 600px) {
-      .options-row { grid-template-columns: repeat(5, 1fr); gap: 5px; }
-      .option-btn { padding: 8px 3px 10px; }
-      .option-text { font-size: 9px; }
-      .option-dot { width: 16px; height: 16px; }
-      .categories-grid { grid-template-columns: 1fr; }
-      .question-card { padding: 18px 16px; }
-      .onboarding-card { padding: 28px 20px; }
+      /* Layout */
+      .wrapper { padding: 0 14px 60px; }
+
+      /* Header */
+      .header { padding: 48px 0 36px; }
+      h1.title { font-size: 1.85rem; letter-spacing: -0.01em; }
+      .header-sub { font-size: 14px; }
+      .vaxa-badge { font-size: 11px; padding: 5px 14px; }
+      .progress-bar-wrap { max-width: 100%; }
+
+      /* Onboarding */
+      .onboarding-card { padding: 24px 16px; border-radius: 16px; }
+      .onboarding-title { font-size: 18px; }
+      .onboarding-sub { font-size: 13px; }
+      .chip-group { gap: 8px; }
+      .chip-btn { padding: 9px 14px; font-size: 12px; }
+      .btn-start { padding: 15px 32px; font-size: 14px; width: 100%; justify-content: center; }
+
+      /* Section headers */
+      .section-header { margin: 36px 0 18px; gap: 12px; }
+      .section-icon { width: 38px; height: 38px; font-size: 17px; }
+      .section-title { font-size: 12px; }
+
+      /* Question cards */
+      .question-card { padding: 16px 14px; border-radius: 12px; margin-bottom: 10px; }
+      .question-text { font-size: 14px; margin-bottom: 16px; }
+      .q-number { font-size: 10px; }
+
+      /* Options — keep 5 columns, shrink to fit */
+      .options-row { grid-template-columns: repeat(5, 1fr); gap: 4px; }
+      .option-btn { padding: 8px 2px 10px; border-radius: 8px; gap: 5px; }
+      .option-dot { width: 15px; height: 15px; border-width: 1.5px; }
+      .option-text { font-size: 8.5px; line-height: 1.25; }
+
+      /* Submit */
+      .btn-submit { padding: 16px 32px; font-size: 14px; width: 100%; justify-content: center; }
+
+      /* Results hero */
+      .result-hero { padding: 36px 16px; border-radius: 18px; }
+      .result-score-ring { width: 120px; height: 120px; }
+      .result-score-ring svg { width: 120px; height: 120px; }
+      .score-num .big { font-size: 28px; }
+      .result-level-name { font-size: 1.4rem; }
+      .result-summary { font-size: 13px; }
+      .profile-banner { gap: 7px; margin-top: 20px; padding-top: 18px; }
+      .profile-chip { font-size: 11px; padding: 5px 11px; }
+
+      /* Radar */
+      .radar-wrap { padding: 20px 12px; border-radius: 16px; }
+      #radarChart { width: 100% !important; height: auto !important; }
+
+      /* Category cards */
+      .categories-grid { grid-template-columns: 1fr; gap: 12px; margin-bottom: 24px; }
+      .cat-card { padding: 18px 16px; border-radius: 14px; }
+      .cat-icon { width: 34px; height: 34px; font-size: 16px; }
+      .cat-name { font-size: 12px; }
+      .cat-analysis { font-size: 12px; }
+      .context-callout { font-size: 12px; padding: 12px 14px; }
+
+      /* Reco cards */
+      .reco-card { padding: 20px 16px; border-radius: 16px; }
+      .reco-title { font-size: 12px; }
+      .reco-item { font-size: 13px; }
+
+      /* Overall */
+      .overall-reco { padding: 22px 16px; border-radius: 16px; }
+      .overall-reco-text { font-size: 14px; line-height: 1.75; }
+
+      /* Buttons row at bottom */
+      #resultSection > div:last-child {
+        flex-direction: column; width: 100%;
+      }
+      .btn-download { width: 100%; justify-content: center; padding: 15px 24px; font-size: 13px; }
+      .retry-btn { width: 100%; justify-content: center; padding: 13px 24px; font-size: 12px; }
+
+      /* Loading overlay */
+      .loader-text { font-size: 13px; }
+      .loader-sub { font-size: 11px; }
+    }
+
+    /* Very small screens: ≤ 360px */
+    @media (max-width: 360px) {
+      .wrapper { padding: 0 10px 50px; }
+      h1.title { font-size: 1.6rem; }
+      .option-text { font-size: 7.5px; }
+      .option-btn { padding: 7px 1px 9px; }
+      .result-level-name { font-size: 1.25rem; }
     }
   </style>
 </head>
@@ -265,7 +358,6 @@
   <!-- HEADER -->
   <div class="header">
     <div class="vaxa-badge"><span></span> VAXA Mentoring Platform</div>
-    <div class="version-tag">EPA v2.0</div>
     <h1 class="title">Entrepreneurial<br><em>Potential Assessment</em></h1>
     <p class="header-sub">60 calibrated questions across 6 dimensions. Context-aware scoring. No fluff in the results.</p>
     <div class="progress-bar-wrap">
