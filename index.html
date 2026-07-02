@@ -343,7 +343,7 @@
       <div class="overall-reco-text" id="overallRecoText"></div>
     </div>
     <div class="action-buttons">
-      <button class="btn-download" id="downloadBtn" onclick="downloadPDF()"><span>&#8595; Download Results as PDF</span></button>
+      <button class="btn-download" id="downloadBtn" onclick="downloadPDF()"><span>Download Results as PDF</span></button>
       <button class="retry-btn" onclick="resetAssessment()">&#8634; Retake Assessment</button>
     </div>
   </div>
@@ -986,7 +986,8 @@ function downloadPDF(){
 
   // Name + Level
   sf(12,"bold",C.mist);doc.text(_pdf.name||"",cx,y,{align:"center"});y+=8;
-  sf(13,"bold",C.sky);doc.text(_pdf.level||"",cx,y,{align:"center"});y+=12;
+  // Level - single line, larger and bolder than name
+  sf(15,"bold",C.sky);doc.text(_pdf.level||"",cx,y,{align:"center"});y+=14;
 
   // Profile chips
   const slb={idea:"Idea Stage",preseed:"Pre-Seed",seed:"Seed/Traction",growth:"Growth Stage",aspiring:"Aspiring"};
@@ -1210,7 +1211,7 @@ function downloadPDF(){
   // Dynamic filename
   const safeName=(_pdf.name||"Result").replace(/[^a-zA-Z0-9\s]/g,"").replace(/\s+/g,"_");
   doc.save(`VAXA_EPA_${safeName}_result.pdf`);
-  btn.disabled=false;btn.querySelector("span").textContent="&#8595; Download Results as PDF";
+  btn.disabled=false;btn.querySelector("span").textContent="Download Results as PDF";
 }
 </script>
 
